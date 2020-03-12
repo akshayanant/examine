@@ -17,6 +17,11 @@ exports.fbAuth = (req, res, next) => {
       req.user = decodedToken;
       return db
         .collection("users")
+        .where("uniqueID", "==", req.user.uid)
+        .limit(1)
+        .get();
+    })
+    .then(data => {
       req.user.email = data.docs[0].data().email;
       return next();
     })
