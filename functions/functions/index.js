@@ -10,6 +10,8 @@ const {
   launchexam,
   disableexam
 } = require("./handlers/exams");
+const { fbAuth } = require("./handlers/auth");
+const { startexam, availableexams, submitexam } = require("./handlers/student");
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -23,5 +25,8 @@ app.post("/appendquestion", appendquestion);
 app.post("/removequestion", removequestion);
 app.post("/launchexam", launchexam);
 app.post("/disableexam", disableexam);
+app.post("/startexam", fbAuth, startexam);
+app.get("/availableexams", fbAuth, availableexams);
+app.post("/submitexam", fbAuth, submitexam);
 
 exports.api = functions.https.onRequest(app);

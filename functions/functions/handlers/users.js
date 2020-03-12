@@ -42,9 +42,10 @@ exports.signup = (request, response) => {
         firstName: newUser.firstName,
         lastName: newUser.lastName,
         email: newUser.email,
-        uniqueID: userID
+        uniqueID: userID,
+        submissions: []
       };
-      return db.doc(`/users/${createdUser.email}`).set(createdUser);
+      return db.doc(`/users/${createdUser.uniqueID}`).set(createdUser);
     })
     .then(() => {
       return response.json(`Token ${tokenID}`);
