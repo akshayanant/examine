@@ -22,7 +22,29 @@ exports.startexam = (req, res) => {
     .limit(1)
     .get()
     .then(() => {
-      return res.json({ message: "Exam Started Successfully" });
+      const submission = {
+        examID: req.body.examID,
+        uid: req.user.uid,
+        selection: [],
+        submitted: false
+      };
+      return db
+        .collection("submissions")
+        .add(submission)
+        .then(data => {
+          const subID = data.id;
+          let uersRef = db.collection("users").doc(submission.uid);
+          return uersRef
+            .update({
+              submissions: admin.firestore.FieldValue.arrayUnion(subID)
+            })
+            .then(() => {
+              return res.json({ message: `Submission ID ${subID}` });
+            });
+        })
+        .catch(err => {
+          res.json({ error: err });
+        });
     })
     .catch(err => {
       res.json({ error: err });
@@ -30,23 +52,13 @@ exports.startexam = (req, res) => {
 };
 
 exports.submitexam = (req, res) => {
-  const submission = {
-    examID: req.body.examID,
-    uid: req.user.uid,
-    selection: []
-  };
-  db.collection("submissions")
-    .add(submission)
-    .then(data => {
-      const subID = data.id;
-      let uersRef = db.collection("users").doc(submission.uid);
-      return uersRef
-        .update({ submissions: admin.firestore.FieldValue.arrayUnion(subID) })
-        .then(() => {
-          return res.json({ message: `Submission ID ${subID}` });
-        });
+  const submissionID = req.body.submissionID;
+  let subRef = db.collection("submissions").doc(submissionID);
+  return subRef
+    .update({
+      submitted: true
     })
-    .catch(err => {
-      res.json({ error: err });
+    .then(() => {
+      return res.json({ message: `Submission ID ${submissionID}` });
     });
 };

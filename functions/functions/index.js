@@ -8,7 +8,8 @@ const {
   appendquestion,
   removequestion,
   launchexam,
-  disableexam
+  disableexam,
+  questions
 } = require("./handlers/exams");
 const { fbAuth } = require("./handlers/auth");
 const { startexam, availableexams, submitexam } = require("./handlers/student");
@@ -28,5 +29,6 @@ app.post("/disableexam", disableexam);
 app.post("/startexam", fbAuth, startexam);
 app.get("/availableexams", fbAuth, availableexams);
 app.post("/submitexam", fbAuth, submitexam);
+app.get("/questions", questions);
 
 exports.api = functions.https.onRequest(app);

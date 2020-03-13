@@ -51,12 +51,37 @@ exports.getExams = (request, response) => {
     .catch(err => console.error(err));
 };
 
+exports.questions = (request, response) => {
+  db.collection("questions")
+    .orderBy("createdAt")
+    .get()
+    .then(data => {
+      return data.docs;
+    })
+    .then(docs => {
+      let questions = [];
+      docs.forEach(doc => {
+        questions.push(doc.data());
+      });
+      response.json(questions);
+    })
+    .catch(err => {
+      response.json({ error: err });
+    });
+};
+
 exports.addquestion = (request, response) => {
+  console.log(request.body);
   const newQuestion = {
     question: request.body.question,
     createdAt: new Date().toISOString(),
-    conclusions: [],
-    options: [],
+    conclusion1: request.body.concl1,
+    conclusion2: request.body.concl1,
+    conclusion3: request.body.concl1,
+    option1: request.body.option1,
+    option2: request.body.option2,
+    option3: request.body.option3,
+    option4: request.body.option4,
     answer: request.body.answer,
     grade: request.body.grade
   };

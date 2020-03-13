@@ -1,0 +1,15 @@
+.container {
+  margin: 80px auto 0px auto;
+  max-width: 1200px;
+}
+
+.navbar-container {
+  margin: auto;
+  max-width: 1200px;
+}
+
+.add-question-form {
+  margin: 10px auto 10px auto;
+  max-width: 300px;
+  padding: 10;
+}
