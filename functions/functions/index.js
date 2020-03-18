@@ -9,7 +9,8 @@ const {
   removequestion,
   launchexam,
   disableexam,
-  questions
+  questions,
+  activeExams
 } = require("./handlers/exams");
 const { fbAuth } = require("./handlers/auth");
 const { startexam, availableexams, submitexam } = require("./handlers/student");
@@ -17,18 +18,25 @@ const { startexam, availableexams, submitexam } = require("./handlers/student");
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
-app.post("/signup", signup);
-app.post("/signin", signin);
+
+//admin routes
 app.get("/exams", getExams);
+app.get("/activeexams", activeExams);
+
 app.post("/createExam", createExam);
+app.post("/launchexam", launchexam);
+app.post("/disableexam", disableexam);
+
+app.get("/questions", questions);
 app.post("/addquestion", addquestion);
 app.post("/appendquestion", appendquestion);
 app.post("/removequestion", removequestion);
-app.post("/launchexam", launchexam);
-app.post("/disableexam", disableexam);
-app.post("/startexam", fbAuth, startexam);
+
+//user routes
+app.post("/signup", signup);
+app.post("/signin", signin);
 app.get("/availableexams", fbAuth, availableexams);
+app.post("/startexam", fbAuth, startexam);
 app.post("/submitexam", fbAuth, submitexam);
-app.get("/questions", questions);
 
 exports.api = functions.https.onRequest(app);

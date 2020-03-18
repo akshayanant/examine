@@ -1,23 +1,19 @@
 import React, { Component } from "react";
-import { AppBar, Toolbar, Button } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Nav, NavLink, NavItem } from "reactstrap";
 class Navbar extends Component {
   render() {
     return (
-      <AppBar>
-        <Toolbar className="navbar-container">
-          <Button color="inherit" component={Link} to="/">
-            Home
-          </Button>
-
-          <Button color="inherit" component={Link} to="/exams">
-            Exams
-          </Button>
-          <Button color="inherit" component={Link} to="/questions">
-            Questions
-          </Button>
-        </Toolbar>
-      </AppBar>
+      <Nav tabs pills justified className="navbar-container">
+        <NavItem>
+          <NavLink href="/">Home</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink href="/exams">Exams</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink href="/questions">Questions</NavLink>
+        </NavItem>
+      </Nav>
     );
   }
 }

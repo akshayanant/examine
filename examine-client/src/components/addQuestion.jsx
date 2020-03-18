@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import {
-  FormGroup,
-  InputLabel,
-  Button,
-  TextareaAutosize
-} from "@material-ui/core";
+import { FormGroup, Label, Button, Input } from "reactstrap";
 
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -111,85 +106,97 @@ class AddQuestion extends Component {
     return (
       <div className="add-question-form">
         <FormGroup className="add-question-form">
-          <InputLabel>Question</InputLabel>
-          <TextareaAutosize
+          <Label>Question</Label>
+          <Input
+            type="textarea"
             onChange={this.handleQuestionChange}
             rows="4"
             value={this.state.question}
           />
         </FormGroup>
         <FormGroup className="add-question-form">
-          <InputLabel>Conclusion 1</InputLabel>
-          <TextareaAutosize
+          <Label>Conclusion 1</Label>
+          <Input
+            type="textarea"
             onChange={this.handleConcl1Change}
             value={this.state.concl1}
           />
         </FormGroup>
         <FormGroup className="add-question-form">
-          <InputLabel>Conclusion 2</InputLabel>
-          <TextareaAutosize
+          <Label>Conclusion 2</Label>
+          <Input
+            type="textarea"
             onChange={this.handleConcl2Change}
             value={this.state.concl2}
           />
         </FormGroup>
         <FormGroup className="add-question-form">
-          <InputLabel>Conclusion 3</InputLabel>
-          <TextareaAutosize
+          <Label>Conclusion 3</Label>
+          <Input
+            type="textarea"
             onChange={this.handleConcl3Change}
             value={this.state.concl3}
           />
         </FormGroup>
         <FormGroup className="add-question-form">
-          <InputLabel>Option 1</InputLabel>
-          <TextareaAutosize
+          <Label>Option 1</Label>
+          <Input
+            type="textarea"
             onChange={this.handleOption1Change}
             value={this.state.option1}
           />
         </FormGroup>
         <FormGroup className="add-question-form">
-          <InputLabel>Option 2</InputLabel>
-          <TextareaAutosize
+          <Label>Option 2</Label>
+          <Input
+            type="textarea"
             onChange={this.handleOption2Change}
             value={this.state.option2}
           />
         </FormGroup>
         <FormGroup className="add-question-form">
-          <InputLabel>Option 3</InputLabel>
-          <TextareaAutosize
+          <Label>Option 3</Label>
+          <Input
+            type="textarea"
             value={this.state.option3}
             onChange={this.handleOption3Change}
           />
         </FormGroup>
         <FormGroup className="add-question-form">
-          <InputLabel>Option 4</InputLabel>
-          <TextareaAutosize
+          <Label>Option 4</Label>
+          <Input
+            type="textarea"
             value={this.state.option4}
             onChange={this.handleOption4Change}
           />
         </FormGroup>
         <FormGroup className="add-question-form">
-          <InputLabel>Answer</InputLabel>
-          <TextareaAutosize
+          <Label>Answer</Label>
+          <Input
+            type="number"
             value={this.state.answer}
             onChange={this.handleAnswerChange}
           />
         </FormGroup>
         <FormGroup className="add-question-form">
-          <InputLabel>Grade</InputLabel>
-          <TextareaAutosize
+          <Label>Grade</Label>
+          <Input
+            type="number"
             value={this.state.grade}
             onChange={this.handleGradeChange}
           />
         </FormGroup>
-        <Button component={Link} to="/questions">
-          exit
-        </Button>
-        <Button onClick={this.handleCancel} color="secondary">
-          clear all
-        </Button>
-        <Button onClick={this.handleSubmit} color="primary">
-          submit
-        </Button>
+        <div className="add-question-buttons">
+          <Button outline color="danger" component={Link} href="/questions">
+            Exit
+          </Button>
+          <Button outline color="warning" onClick={this.handleCancel}>
+            clear all
+          </Button>
+          <Button outline color="success" onClick={this.handleSubmit}>
+            submit
+          </Button>
+        </div>
       </div>
     );
   }

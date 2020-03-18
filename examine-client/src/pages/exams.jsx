@@ -1,38 +1,98 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Grid } from "@material-ui/core";
+
+import Exam from "./../components/exam";
+
 class exams extends Component {
-  state = {
-    exams: []
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      exams: [],
+      active: []
+    };
+  }
 
   componentDidMount() {
     axios.get("/exams").then(res => {
-      console.log(res.data);
       this.setState({
         exams: res.data
       });
     });
+    axios.get("/activeexams").then(res => {
+      console.log(res.data);
+      this.setState({
+        active: res.data
+      });
+    });
   }
+
   render() {
     let examsMarkup = this.state.exams ? (
-      this.state.exams.map(exam => <p>{exam.examName}</p>)
+      this.state.exams.map(exam => (
+        <Exam
+          examID={exam.examID}
+          exam={exam.exam}
+          launch={handleLaunchExam}
+          edit={handleEdit}
+        />
+      ))
     ) : (
       <p>Loading ... </p>
     );
+    let activeExamsMarkUp = this.state.active ? (
+      this.state.active.map(exam => (
+        <Exam
+          activeID={exam.examID}
+          exam={exam.exam}
+          disable={handleDisableExam}
+        />
+      ))
+    ) : (
+      <p>Loading ... </p>
+    );
+
     return (
-      <Grid container spacing={16}>
-        <Grid container justify="space-around" sm={8} xs={12}>
-          <Grid item sm={4} xs={12}>
-            {examsMarkup}
-          </Grid>
-          <Grid item sm={8} xs={12}>
-            Exam
-          </Grid>
-        </Grid>
-      </Grid>
+      <div>
+        <div>
+          <h4>Available Exams</h4>
+          <div>{activeExamsMarkUp}</div>
+        </div>
+        <div>
+          <h4>All Exams</h4>
+          <div>{examsMarkup}</div>
+        </div>
+      </div>
     );
   }
 }
+
+const handleLaunchExam = examID => {
+  console.log(examID);
+  axios
+    .post("/launchexam", { examID })
+    .then(res => {
+      console.log("Launch Success!");
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+const handleDisableExam = examID => {
+  console.log(examID);
+  axios
+    .post("/disableexam", { examID })
+    .then(res => {
+      console.log(res);
+      console.log("Disable Success!");
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+const handleEdit = examID => {
+  console.log(`Editing Exam${examID}`);
+};
 
 export default exams;

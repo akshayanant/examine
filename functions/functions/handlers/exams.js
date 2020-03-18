@@ -1,5 +1,6 @@
 const { db, admin } = require("./../config/admin");
 
+//exam handlers
 exports.createExam = (request, response) => {
   const newExam = {
     quesions: [],
@@ -18,9 +19,8 @@ exports.createExam = (request, response) => {
 
 exports.launchexam = (request, response) => {
   examID = request.body.examID;
-  duration = request.body.duration;
   db.doc(`/availableexams/${examID}`)
-    .set({ examID, duration })
+    .set({ examID })
     .then(() => {
       response.json({ message: "Exam Launched Successfully" });
     })
@@ -44,13 +44,47 @@ exports.getExams = (request, response) => {
     .then(data => {
       let exams = [];
       data.forEach(doc => {
-        exams.push(doc.data());
+        exam = {
+          examID: doc.id,
+          exam: doc.data()
+        };
+        exams.push(exam);
       });
       return response.json(exams);
     })
     .catch(err => console.error(err));
 };
 
+exports.activeExams = (req, res) => {
+  db.collection("availableexams")
+    .get()
+    .then(data => {
+      let active = [];
+      data.forEach(doc => {
+        active.push(doc.data().examID);
+      });
+      db.collection("exam")
+        .get()
+        .then(data => {
+          let exams = [];
+          data.forEach(doc => {
+            if (active.includes(doc.id)) {
+              exam = {
+                examID: doc.id,
+                exam: doc.data()
+              };
+              exams.push(exam);
+            }
+          });
+          return res.json(exams);
+        });
+    })
+    .catch(err => {
+      console.error(err);
+    });
+};
+
+//question handlers
 exports.questions = (request, response) => {
   db.collection("questions")
     .orderBy("createdAt")
