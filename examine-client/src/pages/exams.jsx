@@ -30,10 +30,10 @@ class exams extends Component {
     let examsMarkup = this.state.exams ? (
       this.state.exams.map(exam => (
         <Exam
+          key={exam.examID}
           examID={exam.examID}
           exam={exam.exam}
           launch={handleLaunchExam}
-          edit={handleEdit}
         />
       ))
     ) : (
@@ -42,6 +42,7 @@ class exams extends Component {
     let activeExamsMarkUp = this.state.active ? (
       this.state.active.map(exam => (
         <Exam
+          key={exam.examID}
           activeID={exam.examID}
           exam={exam.exam}
           disable={handleDisableExam}
@@ -89,10 +90,6 @@ const handleDisableExam = examID => {
     .catch(err => {
       console.log(err);
     });
-};
-
-const handleEdit = examID => {
-  console.log(`Editing Exam${examID}`);
 };
 
 export default exams;

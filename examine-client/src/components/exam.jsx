@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Card, CardTitle, Button } from "reactstrap";
+import { connect } from "react-redux";
 import axios from "axios";
 
 class Exam extends Component {
@@ -8,9 +9,7 @@ class Exam extends Component {
     const button = this.props.examID ? (
       <div>
         <Button
-          onClick={() => {
-            this.props.edit(this.props.examID);
-          }}
+          href={`/editexam/${this.props.examID}`}
           outline
           color="success"
           className="mr-3"
@@ -49,4 +48,4 @@ class Exam extends Component {
   }
 }
 
-export default Exam;
+export default connect(null, null)(Exam);
