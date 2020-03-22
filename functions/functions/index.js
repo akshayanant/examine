@@ -10,7 +10,9 @@ const {
   launchexam,
   disableexam,
   questions,
-  activeExams
+  activeExams,
+  getExamDetails,
+  getQuestionDetails
 } = require("./handlers/exams");
 const { fbAuth } = require("./handlers/auth");
 const { startexam, availableexams, submitexam } = require("./handlers/student");
@@ -22,12 +24,15 @@ const { startexam, availableexams, submitexam } = require("./handlers/student");
 //admin routes
 app.get("/exams", getExams);
 app.get("/activeexams", activeExams);
+app.get("/getexamdetails/:examID", getExamDetails);
 
 app.post("/createExam", createExam);
 app.post("/launchexam", launchexam);
 app.post("/disableexam", disableexam);
 
 app.get("/questions", questions);
+app.get("/getquestiondetails/:questionID", getQuestionDetails);
+
 app.post("/addquestion", addquestion);
 app.post("/appendquestion", appendquestion);
 app.post("/removequestion", removequestion);

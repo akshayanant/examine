@@ -84,6 +84,19 @@ exports.activeExams = (req, res) => {
     });
 };
 
+exports.getExamDetails = (req, res) => {
+  const examID = req.params.examID;
+  console.log(examID);
+  db.doc(`/exam/${examID}`)
+    .get()
+    .then(data => {
+      res.json({ exam: data.data() });
+    })
+    .catch(err => {
+      res.json({ error: err });
+    });
+};
+
 //question handlers
 exports.questions = (request, response) => {
   db.collection("questions")
@@ -154,5 +167,18 @@ exports.removequestion = (request, response) => {
     })
     .catch(err => {
       response.json({ error: err });
+    });
+};
+
+exports.getQuestionDetails = (req, res) => {
+  const questionID = req.params.questionID;
+  console.log(questionID);
+  db.doc(`/questions/${questionID}`)
+    .get()
+    .then(data => {
+      res.json({ question: data.data() });
+    })
+    .catch(err => {
+      res.json({ error: err });
     });
 };
