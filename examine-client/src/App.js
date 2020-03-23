@@ -8,7 +8,7 @@ import Container from "./components/Container";
 function App() {
   return (
     <Provider store={store}>
-      <Container />;
+      <Container />
     </Provider>
   );
 }

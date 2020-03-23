@@ -1,15 +1,34 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
+import {
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Input
+} from "reactstrap";
 
 import Exam from "./../components/exam";
+import {
+  createExamModal,
+  cancelCreateExamModal,
+  submitCreateExamModal
+} from "../redux/admin/actions/actions";
 
 class exams extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      exams: [],
-      active: []
+      exams: undefined,
+      active: undefined,
+      newExamName: ""
     };
+    this.handleExamNameChange = this.handleExamNameChange.bind(this);
+    this.handleCreateExam = this.handleCreateExam.bind(this);
+    this.handleCreateExamCancel = this.handleCreateExamCancel.bind(this);
+    this.handleCreateExamSubmit = this.handleCreateExamSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -25,6 +44,28 @@ class exams extends Component {
       });
     });
   }
+
+  handleExamNameChange = event => {
+    this.setState({ newExamName: event.target.value });
+  };
+
+  handleCreateExam = () => {
+    this.props.createExam();
+  };
+
+  handleCreateExamSubmit = () => {
+    axios
+      .post("/createexam", { examName: this.state.newExamName })
+      .then(res => {})
+      .catch(err => {
+        console.log(err);
+      });
+    this.props.submitCreateExam();
+  };
+
+  handleCreateExamCancel = () => {
+    this.props.cancelCreateExam();
+  };
 
   render() {
     let examsMarkup = this.state.exams ? (
@@ -54,6 +95,21 @@ class exams extends Component {
 
     return (
       <div>
+        <Button onClick={this.handleCreateExam}>Create Exam</Button>
+        <Modal isOpen={this.props.createExamModal}>
+          <ModalHeader>Name of the Exam</ModalHeader>
+          <ModalBody>
+            <Input onChange={this.handleExamNameChange} />
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={this.handleCreateExamSubmit}>
+              Create
+            </Button>{" "}
+            <Button color="secondary" onClick={this.handleCreateExamCancel}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </Modal>
         <div>
           <h4>Available Exams</h4>
           <div>{activeExamsMarkUp}</div>
@@ -92,4 +148,24 @@ const handleDisableExam = examID => {
     });
 };
 
-export default exams;
+const mapStateToProps = state => {
+  return {
+    createExamModal: state.admin.createExamModal
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    createExam: () => {
+      dispatch(createExamModal());
+    },
+    cancelCreateExam: () => {
+      dispatch(cancelCreateExamModal());
+    },
+    submitCreateExam: () => {
+      dispatch(submitCreateExamModal());
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(exams);

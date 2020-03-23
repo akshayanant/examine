@@ -12,7 +12,8 @@ const {
   questions,
   activeExams,
   getExamDetails,
-  getQuestionDetails
+  getQuestionDetails,
+  getQuestionIDs
 } = require("./handlers/exams");
 const { fbAuth } = require("./handlers/auth");
 const { startexam, availableexams, submitexam } = require("./handlers/student");
@@ -31,6 +32,7 @@ app.post("/launchexam", launchexam);
 app.post("/disableexam", disableexam);
 
 app.get("/questions", questions);
+app.get("/getquestionids", getQuestionIDs);
 app.get("/getquestiondetails/:questionID", getQuestionDetails);
 
 app.post("/addquestion", addquestion);

@@ -1,10 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
-import { Button } from "reactstrap";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
-import { editExamAction } from "./../redux/admin/actions/actions";
+import {
+  editExamAction,
+  selectQuestionsAction,
+  submitSelectQuestions,
+  cancelSelectQuestions
+} from "./../redux/admin/actions/actions";
+
 import QuestionCard from "./../components/QuestionCard";
+import SelectQuestionsModal from "./../components/SelectQuestionsModal";
 
 class editExam extends Component {
   constructor(props) {
@@ -13,10 +20,55 @@ class editExam extends Component {
       examID: "",
       examName: "",
       createdAt: "",
-      questions: []
+      questions: [],
+      selected: []
     };
     this.handleAddQuestion = this.handleAddQuestion.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+    this.handleChangeSelection = this.handleChangeSelection.bind(this);
   }
+
+  handleAddQuestion = event => {
+    this.props.openModal();
+    event.preventDefault();
+  };
+
+  handleCancel = () => {
+    this.props.cancel();
+  };
+
+  handleSubmit = () => {
+    this.props.submit();
+    this.state.selected.forEach(questionID => {
+      axios
+        .post("/appendquestion", {
+          questionID: questionID,
+          examID: this.state.examID
+        })
+        .then(res => {})
+        .catch(err => {
+          console.log(err);
+        });
+    });
+  };
+
+  handleChangeSelection = event => {
+    const target = event.target;
+    const questionID = target.name;
+    const checked = target.checked;
+    let selected = [...this.state.selected];
+    if (checked && !selected.includes(questionID)) {
+      selected.push(questionID);
+      this.setState({ selected });
+    } else if (!checked && selected.includes(questionID)) {
+      selected = selected.filter(id => {
+        return questionID != id;
+      });
+      this.setState({ selected });
+    }
+    console.log(this.state.selected);
+  };
 
   componentDidMount() {
     const { examID } = this.props.match.params;
@@ -24,7 +76,6 @@ class editExam extends Component {
     axios
       .get(`/getexamdetails/${examID}`)
       .then(res => {
-        console.log(res.data.exam);
         this.setState({
           ...res.data.exam,
           examID: examID
@@ -42,29 +93,50 @@ class editExam extends Component {
     return (
       <div>
         <Button onClick={this.handleAddQuestion}>Add Question</Button>
+        <Modal isOpen={this.props.modalVisible}>
+          <ModalHeader>Available Questions</ModalHeader>
+          <ModalBody>
+            <SelectQuestionsModal
+              examID={this.state.examID}
+              handleChangeSelection={this.handleChangeSelection}
+            />
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={this.handleSubmit}>
+              Submit
+            </Button>{" "}
+            <Button color="secondary" onClick={this.handleCancel}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </Modal>
         {questionsMarkUp}
       </div>
     );
   }
-
-  handleAddQuestion = () => {
-    axios
-      .post("/appendquestion", {
-        examID: this.state.examID,
-        questionID: "9jDOO0YofZZJj5ozjA5s"
-      })
-      .then(res => {
-        console.log(res.data);
-      });
-  };
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     editExam: examID => {
       dispatch(editExamAction(examID));
+    },
+    openModal: () => {
+      dispatch(selectQuestionsAction());
+    },
+    submit: () => {
+      dispatch(submitSelectQuestions());
+    },
+    cancel: () => {
+      dispatch(cancelSelectQuestions());
     }
   };
 };
 
-export default connect(null, mapDispatchToProps)(editExam);
+const mapStateToProps = state => {
+  return {
+    modalVisible: state.admin.questionsModal
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(editExam);

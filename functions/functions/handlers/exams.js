@@ -1,43 +1,43 @@
 const { db, admin } = require("./../config/admin");
 
 //exam handlers
-exports.createExam = (request, response) => {
+exports.createExam = (req, res) => {
   const newExam = {
-    quesions: [],
+    questions: [],
     createdAt: new Date().toISOString(),
-    examName: request.body.examName
+    examName: req.body.examName
   };
   db.collection("exam")
     .add(newExam)
     .then(data => {
-      return response.json({
+      return res.json({
         message: `Exam ${data.id} created successfully!`
       });
     })
     .catch(err => console.error(err));
 };
 
-exports.launchexam = (request, response) => {
-  examID = request.body.examID;
+exports.launchexam = (req, res) => {
+  examID = req.body.examID;
   db.doc(`/availableexams/${examID}`)
     .set({ examID })
     .then(() => {
-      response.json({ message: "Exam Launched Successfully" });
+      res.json({ message: "Exam Launched Successfully" });
     })
     .catch(err => console.error(err));
 };
 
-exports.disableexam = (request, response) => {
-  examID = request.body.examID;
+exports.disableexam = (req, res) => {
+  examID = req.body.examID;
   db.doc(`/availableexams/${examID}`)
     .delete()
     .then(() => {
-      response.json({ message: "Exam Disbaled Successfully" });
+      res.json({ message: "Exam Disbaled Successfully" });
     })
     .catch(err => console.error(err));
 };
 
-exports.getExams = (request, response) => {
+exports.getExams = (req, res) => {
   db.collection("exam")
     .orderBy("createdAt", "desc")
     .get()
@@ -50,7 +50,7 @@ exports.getExams = (request, response) => {
         };
         exams.push(exam);
       });
-      return response.json(exams);
+      return res.json(exams);
     })
     .catch(err => console.error(err));
 };
@@ -98,9 +98,9 @@ exports.getExamDetails = (req, res) => {
 };
 
 //question handlers
-exports.questions = (request, response) => {
+exports.questions = (req, res) => {
   db.collection("questions")
-    .orderBy("createdAt")
+    .orderBy("createdAt", "desc")
     .get()
     .then(data => {
       return data.docs;
@@ -110,63 +110,82 @@ exports.questions = (request, response) => {
       docs.forEach(doc => {
         questions.push(doc.data());
       });
-      response.json(questions);
+      res.json(questions);
     })
     .catch(err => {
-      response.json({ error: err });
+      res.json({ error: err });
     });
 };
 
-exports.addquestion = (request, response) => {
-  console.log(request.body);
+exports.getQuestionIDs = (req, res) => {
+  db.collection("questions")
+    .orderBy("createdAt", "desc")
+    .get()
+    .then(data => {
+      return data.docs;
+    })
+    .then(docs => {
+      let questions = [];
+      docs.forEach(doc => {
+        questions.push(doc.id);
+      });
+      res.json(questions);
+    })
+    .catch(err => {
+      res.json({ error: err });
+    });
+};
+
+exports.addquestion = (req, res) => {
+  console.log(req.body);
   const newQuestion = {
-    question: request.body.question,
+    question: req.body.question,
     createdAt: new Date().toISOString(),
-    conclusion1: request.body.concl1,
-    conclusion2: request.body.concl1,
-    conclusion3: request.body.concl1,
-    option1: request.body.option1,
-    option2: request.body.option2,
-    option3: request.body.option3,
-    option4: request.body.option4,
-    answer: request.body.answer,
-    grade: request.body.grade
+    conclusion1: req.body.concl1,
+    conclusion2: req.body.concl1,
+    conclusion3: req.body.concl1,
+    option1: req.body.option1,
+    option2: req.body.option2,
+    option3: req.body.option3,
+    option4: req.body.option4,
+    answer: req.body.answer,
+    grade: req.body.grade
   };
   db.collection("questions")
     .add(newQuestion)
     .then(data => {
-      return response.json({
+      return res.json({
         message: `Question ${data.id} created successfully!`
       });
     })
     .catch(err => console.error(err));
 };
 
-exports.appendquestion = (request, response) => {
-  questionID = request.body.questionID;
-  examID = request.body.examID;
+exports.appendquestion = (req, res) => {
+  questionID = req.body.questionID;
+  examID = req.body.examID;
   let examRef = db.collection("exam").doc(examID);
   examRef
     .update({ questions: admin.firestore.FieldValue.arrayUnion(questionID) })
     .then(() => {
-      response.status(201).json({ message: "question added successfully" });
+      res.status(201).json({ message: "question added successfully" });
     })
     .catch(err => {
-      response.json({ error: err });
+      res.json({ error: err });
     });
 };
 
-exports.removequestion = (request, response) => {
-  questionID = request.body.questionID;
-  examID = request.body.examID;
+exports.removequestion = (req, res) => {
+  questionID = req.body.questionID;
+  examID = req.body.examID;
   let examRef = db.collection("exam").doc(examID);
   examRef
     .update({ questions: admin.firestore.FieldValue.arrayRemove(questionID) })
     .then(() => {
-      response.status(201).json({ message: "question Removed successfully" });
+      res.status(201).json({ message: "question Removed successfully" });
     })
     .catch(err => {
-      response.json({ error: err });
+      res.json({ error: err });
     });
 };
 
