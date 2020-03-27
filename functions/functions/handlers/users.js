@@ -2,14 +2,8 @@ const { firebase, db } = require("./../config/admin");
 
 exports.signup = (request, response) => {
   let tokenID, userID;
-  const newUser = {
-    firstName: request.body.firstName,
-    lastName: request.body.lastName,
-    email: request.body.email,
-    password: request.body.password,
-    confirmPassword: request.body.confirmPassword
-  };
-
+  console.log(request.body);
+  const newUser = request.body;
   if (newUser.firstName.length < 3) {
     return response.status(400).json({
       error: "First Name must be atleast three characters"
@@ -48,7 +42,7 @@ exports.signup = (request, response) => {
       return db.doc(`/users/${createdUser.uniqueID}`).set(createdUser);
     })
     .then(() => {
-      return response.json(`Token ${tokenID}`);
+      return response.json({ tokenID: `${tokenID}` });
     })
     .catch(err => {
       return response.status(500).json({ error: err.message });
@@ -57,10 +51,7 @@ exports.signup = (request, response) => {
 
 exports.signin = (request, response) => {
   let tokenID;
-  const user = {
-    email: request.body.email,
-    password: request.body.password
-  };
+  const user = request.body;
   firebase
     .auth()
     .signInWithEmailAndPassword(user.email, user.password)
@@ -68,7 +59,7 @@ exports.signin = (request, response) => {
       return data.user.getIdToken();
     })
     .then(token => {
-      return response.json({ message: `login token :  ${token}` });
+      return response.json({ tokenID: `${token}` });
     })
     .catch(err => {
       return response.status(500).json({ error: err.message });

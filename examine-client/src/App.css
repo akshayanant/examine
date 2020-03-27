@@ -63,3 +63,21 @@ code {
   display: flex;
   margin: 10px;
 }
+
+.login-container {
+  width: 100%;
+  max-width: 340px;
+  padding: 15px;
+  margin: auto;
+  height: 100%;
+}
+
+.login-heading {
+  display: flex;
+  justify-content: space-around;
+}
+.login-names {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
