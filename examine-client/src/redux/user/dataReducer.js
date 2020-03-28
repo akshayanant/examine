@@ -1,7 +1,8 @@
-import { USER_ENTRY } from "./actionNames";
+import { USER_ENTRY, USER_EXIT } from "./actionNames";
 
 const init = {
-  tokenID: null
+  loading: false,
+  authorized: false
 };
 
 export const dataReducer = (state = init, action) => {
@@ -9,7 +10,12 @@ export const dataReducer = (state = init, action) => {
     case USER_ENTRY:
       return {
         ...state,
-        tokenID: action.payload
+        authorized: true
+      };
+    case USER_EXIT:
+      return {
+        ...state,
+        authorized: false
       };
     default:
       return {

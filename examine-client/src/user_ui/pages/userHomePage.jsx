@@ -1,19 +1,22 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-
-import Login from "./../components/Login";
+import UserNavLinks from "./../components/UserNavLinks";
 
 class UserHomePage extends Component {
   render() {
-    const tokenID = this.props.tokenID;
-    return <div>{tokenID ? <h1>Hello Student</h1> : <Login />}</div>;
+    return (
+      <div className="user-pages-generic">
+        <div className="user-page-left">
+          <UserNavLinks />
+        </div>
+        <div className="user-page-center">
+          <p>----------Main Content------------</p>
+        </div>
+        <div className="user-page-right">
+          <p> Right Right Right</p>
+        </div>
+      </div>
+    );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    tokenID: state.user.tokenID
-  };
-};
-
-export default connect(mapStateToProps, null)(UserHomePage);
+export default UserHomePage;

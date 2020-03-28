@@ -1,14 +1,17 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import UserHomePage from "./../pages/userHomePage";
+
+import ExamineUserEntry from "./../pages/examineUserEntry";
+import UserNavbar from "./UserNavbar";
 
 class UserContainer extends Component {
   render() {
     return (
       <Router>
+        <UserNavbar />
         <div>
           <Switch>
-            <Route exact path="/" component={UserHomePage} />
+            <Route exact path="/" component={ExamineUserEntry} />
           </Switch>
         </div>
       </Router>
