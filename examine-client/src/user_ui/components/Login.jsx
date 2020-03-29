@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { Form, FormGroup, Input, Label, Button } from "reactstrap";
-import axios from "axios";
 import { connect } from "react-redux";
 
-import { userEntry } from "./../../redux/user/actions";
+import { userLogin, userSignUp } from "./../../redux/user/actions";
 
 class Login extends Component {
   constructor(props) {
@@ -57,14 +56,7 @@ class Login extends Component {
       email: this.state.loginEmail,
       password: this.state.loginPassword
     };
-    axios
-      .post("/signin", user)
-      .then(res => {
-        this.props.entry(res.data.tokenID);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    this.props.login(user);
   };
 
   handleNewAcc = () => {
@@ -75,14 +67,7 @@ class Login extends Component {
       password: this.state.newPassword,
       confirmPassword: this.state.confirmPassword
     };
-    axios
-      .post("/signup", newUser)
-      .then(res => {
-        this.props.entry(res.data.tokenID);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    this.props.signup(newUser);
   };
 
   render() {
@@ -174,8 +159,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    entry: tokenID => {
-      dispatch(userEntry(tokenID));
+    signup: user => {
+      dispatch(userSignUp(user));
+    },
+    login: user => {
+      dispatch(userLogin(user));
     }
   };
 };

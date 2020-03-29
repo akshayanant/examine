@@ -65,3 +65,12 @@ exports.signin = (request, response) => {
       return response.status(500).json({ error: err.message });
     });
 };
+
+exports.signout = (request, response) => {
+  firebase
+    .auth()
+    .signOut()
+    .then(() => {
+      response.json({ message: "logout successfull!" });
+    });
+};

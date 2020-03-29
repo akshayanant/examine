@@ -1,6 +1,6 @@
 const functions = require("firebase-functions");
 const { app } = require("./config/admin");
-const { signup, signin } = require("./handlers/users");
+const { signup, signin, signout } = require("./handlers/users");
 const {
   createExam,
   getExams,
@@ -42,6 +42,8 @@ app.post("/removequestion", removequestion);
 //user routes
 app.post("/signup", signup);
 app.post("/signin", signin);
+app.post("/signout", signout);
+
 app.get("/availableexams", fbAuth, availableexams);
 app.post("/startexam", fbAuth, startexam);
 app.post("/submitexam", fbAuth, submitexam);
