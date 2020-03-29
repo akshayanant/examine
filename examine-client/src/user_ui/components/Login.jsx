@@ -71,6 +71,11 @@ class Login extends Component {
   };
 
   render() {
+    const authErrorMarkup = this.props.authError ? (
+      <p className="auth-error">Invalid Credentials . . . Please try agian </p>
+    ) : (
+      ""
+    );
     return (
       <Form className="login-container">
         <div className="login-heading">
@@ -93,6 +98,7 @@ class Login extends Component {
             onChange={this.handleChangeLoginPassword}
           />
         </FormGroup>
+        <div>{authErrorMarkup}</div>
         <Button
           className="btn-lg btn-dark btn-block"
           onClick={this.handleLogin}
@@ -154,7 +160,9 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    authError: state.user.authError
+  };
 };
 
 const mapDispatchToProps = dispatch => {

@@ -99,3 +99,10 @@ code {
   max-width: 60%;
   align-items: flex-end;
 }
+
+.auth-error {
+  display: flex;
+  justify-content: space-around;
+  color: red;
+  align-items: center;
+}

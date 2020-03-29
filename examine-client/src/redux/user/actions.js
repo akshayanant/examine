@@ -1,6 +1,7 @@
 import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
+  USER_LOGIN_ERROR,
   USER_SIGNUP_REQUEST,
   USER_SIGNUP_SUCCESS,
   USER_LOGOUT_SUCCESS,
@@ -23,6 +24,14 @@ export const userLoginSuccess = data => {
   };
 };
 
+export const userLoginError = data => {
+  console.log(data);
+  return {
+    type: USER_LOGIN_ERROR,
+    payload: data.error
+  };
+};
+
 export const userLogin = user => {
   return dispatch => {
     dispatch(userLoginRequest());
@@ -32,7 +41,7 @@ export const userLogin = user => {
         dispatch(userLoginSuccess(res.data));
       })
       .catch(err => {
-        console.log(err);
+        dispatch(userLoginError(err));
       });
   };
 };

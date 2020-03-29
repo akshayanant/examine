@@ -4,12 +4,14 @@ import {
   USER_LOGIN_REQUEST,
   USER_SIGNUP_REQUEST,
   USER_SIGNUP_SUCCESS,
-  USER_LOGOUT_SUCCESS
+  USER_LOGOUT_SUCCESS,
+  USER_LOGIN_ERROR
 } from "./actionNames";
 
 const init = {
   loading: false,
-  authorized: false
+  authorized: false,
+  authError: false
 };
 
 export const dataReducer = (state = init, action) => {
@@ -24,7 +26,15 @@ export const dataReducer = (state = init, action) => {
       return {
         ...state,
         loading: false,
-        authorized: true
+        authorized: true,
+        authError: false
+      };
+
+    case USER_LOGIN_ERROR:
+      return {
+        ...state,
+        loading: false,
+        authError: true
       };
 
     case USER_SIGNUP_REQUEST:
@@ -37,7 +47,8 @@ export const dataReducer = (state = init, action) => {
       return {
         ...state,
         loading: false,
-        authorized: true
+        authorized: true,
+        authError: false
       };
 
     case USER_LOGOUT_REQUEST:
