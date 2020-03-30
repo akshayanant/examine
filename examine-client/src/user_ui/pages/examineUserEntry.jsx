@@ -5,15 +5,13 @@ import { Spinner } from "reactstrap";
 
 import Login from "../components/Login";
 import UserHomePage from "./userHomePage";
+import { auth } from "./../util/auth";
+import { Redirect } from "react-router-dom";
 
 class ExamineUserEntry extends Component {
   render() {
-    const tokenID = localStorage.tokenID;
-    const authorized = this.props.authorized;
-    const loading = this.props.loading;
-    const decodedToken = tokenID ? jwtdecode(tokenID) : undefined;
-    const homePage = tokenID && decodedToken.exp * 1000 > Date.now();
-    const mainPageMarkup = loading ? (
+    const valid = auth(localStorage.tokenID);
+    const mainPageMarkup = this.props.loading ? (
       <div>
         <Spinner type="grow" color="primary" />
         <Spinner type="grow" color="secondary" />
@@ -24,13 +22,13 @@ class ExamineUserEntry extends Component {
         <Spinner type="grow" color="light" />
         <Spinner type="grow" color="dark" />
       </div>
-    ) : homePage ? (
+    ) : valid ? (
       <UserHomePage />
     ) : (
-      <Login />
+      <Redirect to="/login" />
     );
 
-    return <div className="container">{mainPageMarkup}</div>;
+    return <div>{mainPageMarkup}</div>;
   }
 }
 

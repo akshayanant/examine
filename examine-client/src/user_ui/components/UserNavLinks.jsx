@@ -1,39 +1,52 @@
 import React, { Component } from "react";
 import { Nav, NavItem, NavLink } from "reactstrap";
+import { connect } from "react-redux";
+
+import { auth } from "./../util/auth";
 
 class UserNavLinks extends Component {
   render() {
-    return (
+    const valid = auth(localStorage.tokenID);
+    const authorized = this.props.authorized;
+    const loading = this.props.loading;
+    const navMarkUp = valid ? (
       <div>
         <p>List Based</p>
-        <Nav vertical>
+        <Nav tabs vertical>
           <NavItem>
-            <NavLink href="#">Link</NavLink>
+            <NavLink active href="/announcements">
+              Announcements
+            </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="#">Link</NavLink>
+            <NavLink active href="#">
+              Exams
+            </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="#">Another Link</NavLink>
+            <NavLink active href="#">
+              Assignments
+            </NavLink>
           </NavItem>
           <NavItem>
             <NavLink disabled href="#">
-              Disabled Link
+              Discussions
             </NavLink>
           </NavItem>
         </Nav>
-        <hr />
-        <p>Link based</p>
-        <Nav vertical>
-          <NavLink href="#">Link</NavLink> <NavLink href="#">Link</NavLink>{" "}
-          <NavLink href="#">Another Link</NavLink>{" "}
-          <NavLink disabled href="#">
-            Disabled Link
-          </NavLink>
-        </Nav>
       </div>
+    ) : (
+      ""
     );
+    return <div>{navMarkUp}</div>;
   }
 }
 
-export default UserNavLinks;
+const mapStateToProps = state => {
+  return {
+    authorized: state.user.authorized,
+    loading: state.user.loading
+  };
+};
+
+export default connect(mapStateToProps, null)(UserNavLinks);
