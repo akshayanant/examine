@@ -15,6 +15,21 @@ exports.availableexams = (req, res) => {
     });
 };
 
+exports.allExams = (req, res) => {
+  db.collection("exam")
+    .get()
+    .then(data => {
+      let exams = [];
+      data.forEach(doc => {
+        exams.push(doc.data());
+      });
+      return res.json(exams);
+    })
+    .catch(err => {
+      console.error(err);
+    });
+};
+
 exports.startexam = (req, res) => {
   let examID = req.body.examID;
   db.collection("availableexams")

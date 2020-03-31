@@ -5,7 +5,12 @@ import {
   USER_SIGNUP_REQUEST,
   USER_SIGNUP_SUCCESS,
   USER_LOGOUT_SUCCESS,
-  USER_LOGOUT_REQUEST
+  USER_LOGOUT_REQUEST,
+  FETCH_ALL_EXAMS_REQUEST,
+  FETCH_AVAILABLE_EXAMS,
+  FETCH_ALL_EXAMS_SUCCESS,
+  FETCH_AVAILABLE_EXAMS_REQUEST,
+  FETCH_AVAILABLE_EXAMS_SUCCESS
 } from "./actionNames";
 import axios from "axios";
 
@@ -97,6 +102,70 @@ export const userLogout = user => {
       .then(res => {
         console.log(res.data);
         dispatch(userLogoutSuccess(res.data));
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+};
+
+const fetchAllExamsRequest = () => {
+  return {
+    type: FETCH_ALL_EXAMS_REQUEST
+  };
+};
+
+const fetchAllExamsSuccess = data => {
+  return {
+    type: FETCH_ALL_EXAMS_SUCCESS,
+    payload: data
+  };
+};
+
+export const fetchAllExams = () => {
+  return dispatch => {
+    dispatch(fetchAllExamsRequest());
+    axios.defaults.headers.common["Authorization"] = localStorage.tokenID;
+    console.log(axios.defaults.headers.common["Authorization"]);
+    axios
+      .get("/allexams")
+      .then(res => {
+        console.log(res.data);
+        dispatch(fetchAllExamsSuccess(res.data));
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+};
+
+const fetchAvailableExamsRequest = () => {
+  return {
+    type: FETCH_AVAILABLE_EXAMS_REQUEST
+  };
+};
+
+const fetchAvailableExamsSuccess = data => {
+  return {
+    type: FETCH_AVAILABLE_EXAMS_SUCCESS,
+    payload: data
+  };
+};
+
+export const fetchAvailableExams = () => {
+  return dispatch => {
+    dispatch(fetchAvailableExamsRequest());
+    axios.defaults.headers.common["Authorization"] = localStorage.tokenID;
+    axios
+      .get("/availableexams")
+      .then(res => {
+        const availableExams = res.data;
+        availableExams.forEach(exam => {
+          axios.get(`/getexamdetails/${exam.examID}`).then(res => {
+            console.log(res.data);
+            dispatch(fetchAvailableExamsSuccess(res.data.exam));
+          });
+        });
       })
       .catch(err => {
         console.log(err);

@@ -5,13 +5,19 @@ import {
   USER_SIGNUP_REQUEST,
   USER_SIGNUP_SUCCESS,
   USER_LOGOUT_SUCCESS,
-  USER_LOGIN_ERROR
+  USER_LOGIN_ERROR,
+  FETCH_ALL_EXAMS_REQUEST,
+  FETCH_ALL_EXAMS_SUCCESS,
+  FETCH_AVAILABLE_EXAMS_REQUEST,
+  FETCH_AVAILABLE_EXAMS_SUCCESS
 } from "./actionNames";
 
 const init = {
   loading: false,
   authorized: false,
-  authError: false
+  authError: false,
+  allExams: [],
+  availableExams: []
 };
 
 export const dataReducer = (state = init, action) => {
@@ -62,6 +68,34 @@ export const dataReducer = (state = init, action) => {
         ...state,
         loading: false,
         authorized: false
+      };
+
+    case FETCH_ALL_EXAMS_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+
+    case FETCH_ALL_EXAMS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        allExams: [...action.payload]
+      };
+
+    case FETCH_AVAILABLE_EXAMS_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+
+    case FETCH_AVAILABLE_EXAMS_SUCCESS:
+      let availableExams = [...state.availableExams];
+      availableExams.push(action.payload);
+      return {
+        ...state,
+        loading: false,
+        availableExams: availableExams
       };
 
     default:

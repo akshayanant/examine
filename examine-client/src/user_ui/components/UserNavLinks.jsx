@@ -19,7 +19,7 @@ class UserNavLinks extends Component {
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink active href="#">
+            <NavLink active href="/exams">
               Exams
             </NavLink>
           </NavItem>

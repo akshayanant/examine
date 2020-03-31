@@ -93,7 +93,7 @@ code {
 
 .user-pages-generic {
   display: flex;
-  margin: 10px 10px 10px 10px;
+  margin: 10px 30px 30px 30px;
   padding: 20px;
   justify-content: space-between;
 }

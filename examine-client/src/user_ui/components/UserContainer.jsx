@@ -8,6 +8,7 @@ import examineUserEntry from "./../pages/examineUserEntry";
 import Login from "./Login";
 import UserNavLinks from "./UserNavLinks";
 import AnnouncementsPage from "./../pages/announcementsPage";
+import ExamsPage from "./../pages/exams";
 
 class UserContainer extends Component {
   render() {
@@ -21,6 +22,7 @@ class UserContainer extends Component {
             <AuthRoute exact path="/login" component={Login} />
             <Route exact path="/" component={examineUserEntry} />
             <Route exact path="/announcements" component={AnnouncementsPage} />
+            <Route exact path="/exams" component={ExamsPage} />
           </Switch>
         </div>
       </Router>

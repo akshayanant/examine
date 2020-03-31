@@ -16,7 +16,12 @@ const {
   getQuestionIDs
 } = require("./handlers/exams");
 const { fbAuth } = require("./handlers/auth");
-const { startexam, availableexams, submitexam } = require("./handlers/student");
+const {
+  startexam,
+  availableexams,
+  submitexam,
+  allExams
+} = require("./handlers/student");
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -45,6 +50,7 @@ app.post("/signin", signin);
 app.post("/signout", signout);
 
 app.get("/availableexams", fbAuth, availableexams);
+app.get("/allexams", fbAuth, allExams);
 app.post("/startexam", fbAuth, startexam);
 app.post("/submitexam", fbAuth, submitexam);
 
