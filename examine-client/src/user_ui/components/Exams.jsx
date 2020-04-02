@@ -15,20 +15,36 @@ class Exams extends Component {
     const allExams = this.props.allExams;
     const availableExams = this.props.availableExams;
     const loading = this.props.loading;
-    const examsMarkUp = loading ? (
-      <LoadingSpinner />
-    ) : (
-      allExams.map(exam => {
-        return <ExamCard exam={exam} available={false} />;
-      })
-    );
     const availableExamsMarkUp = loading ? (
       <LoadingSpinner />
     ) : (
       availableExams.map(exam => {
-        return <ExamCard exam={exam} available={true} />;
+        console.log(exam.examID);
+        return (
+          <ExamCard
+            exam={exam.exam}
+            key={exam.examID}
+            id={exam.examID}
+            available={true}
+          />
+        );
       })
     );
+    const examsMarkUp = loading ? (
+      <LoadingSpinner />
+    ) : (
+      allExams.map(exam => {
+        return (
+          <ExamCard
+            exam={exam.exam}
+            key={exam.examID}
+            id={exam.examID}
+            available={false}
+          />
+        );
+      })
+    );
+
     return (
       <div>
         <div className="exams-card-container">

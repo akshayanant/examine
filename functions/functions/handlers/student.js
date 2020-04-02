@@ -21,7 +21,10 @@ exports.allExams = (req, res) => {
     .then(data => {
       let exams = [];
       data.forEach(doc => {
-        exams.push(doc.data());
+        exams.push({
+          examID: doc.id,
+          exam: doc.data()
+        });
       });
       return res.json(exams);
     })

@@ -163,7 +163,12 @@ export const fetchAvailableExams = () => {
         availableExams.forEach(exam => {
           axios.get(`/getexamdetails/${exam.examID}`).then(res => {
             console.log(res.data);
-            dispatch(fetchAvailableExamsSuccess(res.data.exam));
+            dispatch(
+              fetchAvailableExamsSuccess({
+                examID: exam.examID,
+                exam: res.data.exam
+              })
+            );
           });
         });
       })

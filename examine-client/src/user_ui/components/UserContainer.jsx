@@ -9,6 +9,7 @@ import Login from "./Login";
 import UserNavLinks from "./UserNavLinks";
 import AnnouncementsPage from "./../pages/announcementsPage";
 import ExamsPage from "./../pages/exams";
+import ExamLauncherPage from "./../pages/examLauncherPage";
 
 class UserContainer extends Component {
   render() {
@@ -24,6 +25,11 @@ class UserContainer extends Component {
             <Route exact path="/" component={examineUserEntry} />
             <Route exact path="/announcements" component={AnnouncementsPage} />
             <Route exact path="/exams" component={ExamsPage} />
+            <Route
+              exact
+              path="/launchexam/:examID"
+              component={ExamLauncherPage}
+            />
           </Switch>
         </div>
       </Router>

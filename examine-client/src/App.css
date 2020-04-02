@@ -147,3 +147,9 @@ code {
 .exam-card {
   min-width: 80%;
 }
+
+.launch-exam-modal-buttons {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
