@@ -14,8 +14,10 @@ class Exams extends Component {
   render() {
     const allExams = this.props.allExams;
     const availableExams = this.props.availableExams;
-    const loading = this.props.loading;
-    const availableExamsMarkUp = loading ? (
+    const loadingAllExams = this.props.loadingAllExams;
+    const loadingAvailableExams = this.props.loadingAvailableExams;
+
+    const availableExamsMarkUp = loadingAvailableExams ? (
       <LoadingSpinner />
     ) : (
       availableExams.map(exam => {
@@ -30,7 +32,7 @@ class Exams extends Component {
         );
       })
     );
-    const examsMarkUp = loading ? (
+    const examsMarkUp = loadingAllExams ? (
       <LoadingSpinner />
     ) : (
       allExams.map(exam => {
@@ -64,7 +66,8 @@ const mapStateToProps = state => {
   return {
     allExams: state.user.allExams,
     availableExams: state.user.availableExams,
-    loading: state.user.loading
+    loadingAllExams: state.user.loadingAllExams,
+    loadingAvailableExams: state.user.loadingAvailableExams
   };
 };
 

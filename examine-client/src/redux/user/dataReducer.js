@@ -17,7 +17,9 @@ const init = {
   authorized: false,
   authError: false,
   allExams: [],
-  availableExams: []
+  availableExams: [],
+  loadingAvailableExams: false,
+  loadingAllExams: false
 };
 
 export const dataReducer = (state = init, action) => {
@@ -73,20 +75,20 @@ export const dataReducer = (state = init, action) => {
     case FETCH_ALL_EXAMS_REQUEST:
       return {
         ...state,
-        loading: true
+        loadingAllExams: true
       };
 
     case FETCH_ALL_EXAMS_SUCCESS:
       return {
         ...state,
-        loading: false,
+        loadingAllExams: false,
         allExams: [...action.payload]
       };
 
     case FETCH_AVAILABLE_EXAMS_REQUEST:
       return {
         ...state,
-        loading: true
+        loadingAvailableExams: true
       };
 
     case FETCH_AVAILABLE_EXAMS_SUCCESS:
@@ -94,7 +96,7 @@ export const dataReducer = (state = init, action) => {
       availableExams.push(action.payload);
       return {
         ...state,
-        loading: false,
+        loadingAvailableExams: false,
         availableExams: availableExams
       };
 
