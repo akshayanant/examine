@@ -16,8 +16,9 @@ class UserContainer extends Component {
       <Router>
         <UserNavbar />
         <div className="user-container">
-          <div className="user-nav-links"></div>
-          <UserNavLinks />
+          <div className="user-nav-links">
+            <UserNavLinks />
+          </div>
           <Switch>
             <AuthRoute exact path="/login" component={Login} />
             <Route exact path="/" component={examineUserEntry} />

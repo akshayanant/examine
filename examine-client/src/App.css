@@ -84,11 +84,13 @@ code {
   display: flex;
   margin: 20px auto auto auto;
   padding: 20px;
+  min-width: 100%;
 }
 
 .user-nav-links {
   margin: 10px 10px 10px 10px;
   padding: 20px;
+  min-width: 20%;
 }
 
 .user-pages-generic {
@@ -118,4 +120,30 @@ code {
   justify-content: space-around;
   color: red;
   align-items: center;
+}
+
+.exams-page-container {
+  padding: 20px;
+  margin-left: 20px;
+  min-width: 60%;
+}
+
+.main-content-container {
+  padding: 20px;
+  margin-left: 20px;
+  min-width: 60%;
+}
+
+.exams-card-container {
+  padding: 20px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: whitesmoke;
+  min-width: 100%;
+  margin: 10px;
+  align-items: center;
+}
+
+.exam-card {
+  min-width: 80%;
 }

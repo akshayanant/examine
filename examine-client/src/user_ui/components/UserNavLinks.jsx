@@ -11,7 +11,7 @@ class UserNavLinks extends Component {
     const loading = this.props.loading;
     const navMarkUp = valid ? (
       <div>
-        <p>List Based</p>
+        <h6>Features</h6>
         <Nav tabs vertical>
           <NavItem>
             <NavLink active href="/announcements">

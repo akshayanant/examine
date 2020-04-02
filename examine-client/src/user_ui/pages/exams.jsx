@@ -11,7 +11,7 @@ class ExamsPage extends Component {
     const authorized = this.props.authorized;
     const loading = this.props.loading;
     const examsMarkUp = valid ? <Exams /> : <Redirect to="/login" />;
-    return <div>{examsMarkUp}</div>;
+    return <div className="main-content-container">{examsMarkUp}</div>;
   }
 }
 

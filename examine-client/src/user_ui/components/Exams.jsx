@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { fetchAllExams, fetchAvailableExams } from "../../redux/user/actions";
+import ExamCard from "./ExamCard";
+import LoadingSpinner from "./LoadingSpinner";
 
 class Exams extends Component {
   componentDidMount() {
@@ -11,18 +13,32 @@ class Exams extends Component {
 
   render() {
     const allExams = this.props.allExams;
-    const examsMarkUp = allExams.map(exam => {
-      return <h1>{exam.examName}</h1>;
-    });
     const availableExams = this.props.availableExams;
-    console.log(availableExams);
-    const availableExamsMarkUp = availableExams.map(exam => {
-      return <h1>{exam.examName}</h1>;
-    });
+    const loading = this.props.loading;
+    const examsMarkUp = loading ? (
+      <LoadingSpinner />
+    ) : (
+      allExams.map(exam => {
+        return <ExamCard exam={exam} available={false} />;
+      })
+    );
+    const availableExamsMarkUp = loading ? (
+      <LoadingSpinner />
+    ) : (
+      availableExams.map(exam => {
+        return <ExamCard exam={exam} available={true} />;
+      })
+    );
     return (
       <div>
-        <div className="user-pages-generic">{availableExamsMarkUp}</div>
-        <div className="user-pages-generic">{examsMarkUp}</div>
+        <div className="exams-card-container">
+          <h4>Available Exams</h4>
+          <div>{availableExamsMarkUp}</div>
+        </div>
+        <div className="exams-card-container">
+          <h4>All Exams</h4>
+          <div>{examsMarkUp}</div>
+        </div>
       </div>
     );
   }
@@ -31,7 +47,8 @@ class Exams extends Component {
 const mapStateToProps = state => {
   return {
     allExams: state.user.allExams,
-    availableExams: state.user.availableExams
+    availableExams: state.user.availableExams,
+    loading: state.user.loading
   };
 };
 
