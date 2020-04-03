@@ -16,17 +16,14 @@ class ExamCard extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.id);
     this.setState({ examID: this.props.id });
   }
 
   handleContinue = () => {
-    console.log(`Start Exam ${this.state.examID}`);
     this.setState({ modalVisible: false });
   };
 
   handleCancel = () => {
-    console.log("Cancel");
     this.setState({ modalVisible: false });
   };
 

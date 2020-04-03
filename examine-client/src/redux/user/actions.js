@@ -29,7 +29,6 @@ export const userLoginSuccess = data => {
 };
 
 export const userLoginError = data => {
-  console.log(data);
   return {
     type: USER_LOGIN_ERROR,
     payload: data.error
@@ -73,9 +72,7 @@ export const userSignUp = user => {
       .then(res => {
         dispatch(userSignUpSuccess(res.data));
       })
-      .catch(err => {
-        console.log(err);
-      });
+      .catch(err => {});
   };
 };
 
@@ -99,12 +96,9 @@ export const userLogout = user => {
     axios
       .post("/signout")
       .then(res => {
-        console.log(res.data);
         dispatch(userLogoutSuccess(res.data));
       })
-      .catch(err => {
-        console.log(err);
-      });
+      .catch(err => {});
   };
 };
 
@@ -131,7 +125,6 @@ export const fetchAvailableExams = () => {
         const availableExams = res.data;
         availableExams.forEach(exam => {
           axios.get(`/getexamdetails/${exam.examID}`).then(res => {
-            console.log(res.data);
             dispatch(
               fetchAvailableExamsSuccess({
                 examID: exam.examID,
@@ -141,9 +134,7 @@ export const fetchAvailableExams = () => {
           });
         });
       })
-      .catch(err => {
-        console.log(err);
-      });
+      .catch(err => {});
   };
 };
 
@@ -170,7 +161,6 @@ export const fetchPastExams = () => {
         const pastExams = res.data;
         pastExams.forEach(exam => {
           axios.get(`/getexamdetails/${exam.examID}`).then(res => {
-            console.log(res.data);
             dispatch(
               fetchPastExamsSuccess({
                 examID: exam.examID,
@@ -180,8 +170,6 @@ export const fetchPastExams = () => {
           });
         });
       })
-      .catch(err => {
-        console.log(err);
-      });
+      .catch(err => {});
   };
 };

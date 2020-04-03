@@ -47,9 +47,7 @@ class editExam extends Component {
           examID: this.state.examID
         })
         .then(res => {})
-        .catch(err => {
-          console.log(err);
-        });
+        .catch(err => {});
     });
   };
 
@@ -67,7 +65,6 @@ class editExam extends Component {
       });
       this.setState({ selected });
     }
-    console.log(this.state.selected);
   };
 
   componentDidMount() {
@@ -81,9 +78,7 @@ class editExam extends Component {
           examID: examID
         });
       })
-      .catch(err => {
-        console.log(err);
-      });
+      .catch(err => {});
   }
 
   render() {

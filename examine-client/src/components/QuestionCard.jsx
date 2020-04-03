@@ -24,16 +24,12 @@ class QuestionCard extends Component {
     axios
       .get(`/getquestiondetails/${questionID}`)
       .then(res => {
-        console.log(res.data);
         this.setState(res.data.question);
       })
-      .catch(err => {
-        console.log(err);
-      });
+      .catch(err => {});
   }
 
   render() {
-    console.log(this.state);
     const conslusionsMarkUp = this.state.conclusion1 ? (
       <div>
         <p>(1) {this.state.conclusion1}</p>

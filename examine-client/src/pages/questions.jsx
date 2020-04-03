@@ -11,7 +11,6 @@ class questions extends Component {
 
   componentDidMount() {
     axios.get("/questions").then(res => {
-      console.log(res.data);
       this.setState({
         questions: res.data
       });

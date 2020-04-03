@@ -21,7 +21,6 @@ class Exams extends Component {
       <LoadingSpinner />
     ) : (
       availableExams.map(exam => {
-        console.log(exam.examID);
         return (
           <ExamCard
             exam={exam.exam}

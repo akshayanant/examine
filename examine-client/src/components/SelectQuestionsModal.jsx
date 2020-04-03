@@ -22,18 +22,16 @@ class SelectQuestionsModal extends Component {
         res.data.exam.questions.forEach(q => {
           allQuetions.push(q);
         });
-        console.log(`Current Exam Questions - ${allQuetions}`);
+
         axios.get("/getquestionids").then(res => {
           res.data.forEach(q => {
             if (!allQuetions.includes(q)) {
               availableQuestions.push(q);
             }
           });
-          console.log(`Available - ${availableQuestions}`);
 
           availableQuestions.forEach(questionID => {
             axios.get(`/getquestiondetails/${questionID}`).then(res => {
-              console.log(res.data.question.question);
               let questions = [...this.props.availableQuestions];
               questions.push({
                 id: questionID,
@@ -44,9 +42,7 @@ class SelectQuestionsModal extends Component {
           });
         });
       })
-      .catch(err => {
-        console.log(err);
-      });
+      .catch(err => {});
   }
 
   render() {

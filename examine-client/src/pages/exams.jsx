@@ -38,7 +38,6 @@ class exams extends Component {
       });
     });
     axios.get("/activeexams").then(res => {
-      console.log(res.data);
       this.setState({
         active: res.data
       });
@@ -57,9 +56,7 @@ class exams extends Component {
     axios
       .post("/createexam", { examName: this.state.newExamName })
       .then(res => {})
-      .catch(err => {
-        console.log(err);
-      });
+      .catch(err => {});
     this.props.submitCreateExam();
   };
 
@@ -124,28 +121,17 @@ class exams extends Component {
 }
 
 const handleLaunchExam = examID => {
-  console.log(examID);
   axios
     .post("/launchexam", { examID })
-    .then(res => {
-      console.log("Launch Success!");
-    })
-    .catch(err => {
-      console.log(err);
-    });
+    .then(res => {})
+    .catch(err => {});
 };
 
 const handleDisableExam = examID => {
-  console.log(examID);
   axios
     .post("/disableexam", { examID })
-    .then(res => {
-      console.log(res);
-      console.log("Disable Success!");
-    })
-    .catch(err => {
-      console.log(err);
-    });
+    .then(res => {})
+    .catch(err => {});
 };
 
 const mapStateToProps = state => {

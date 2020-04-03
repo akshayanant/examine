@@ -10,7 +10,7 @@ class AnnouncementsPage extends Component {
     const authorized = this.props.authorized;
     const loading = this.props.loading;
     const valid = auth(localStorage.tokenID);
-    console.log(valid);
+
     const announcementsMarkUp = valid ? (
       <Announcements />
     ) : (

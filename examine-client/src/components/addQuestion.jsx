@@ -81,9 +81,7 @@ class AddQuestion extends Component {
           grade: 0.0
         });
       })
-      .catch(err => {
-        console.log(err);
-      });
+      .catch(err => {});
   };
 
   handleCancel = event => {
@@ -99,7 +97,6 @@ class AddQuestion extends Component {
       answer: 0,
       grade: 0.0
     });
-    console.log(this.state);
   };
 
   render() {
