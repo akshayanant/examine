@@ -9,7 +9,9 @@ import {
   FETCH_AVAILABLE_EXAMS_REQUEST,
   FETCH_AVAILABLE_EXAMS_SUCCESS,
   FETCH_PAST_EXAMS_REQUEST,
-  FETCH_PAST_EXAMS_SUCCESS
+  FETCH_PAST_EXAMS_SUCCESS,
+  START_EXAM_REQUEST,
+  START_EXAM_SUCCESS
 } from "./actionNames";
 import axios from "axios";
 
@@ -171,5 +173,49 @@ export const fetchPastExams = () => {
         });
       })
       .catch(err => {});
+  };
+};
+
+const startExamRequest = () => {
+  return {
+    type: START_EXAM_REQUEST
+  };
+};
+
+const startExamSuccess = data => {
+  return {
+    type: START_EXAM_SUCCESS,
+    payload: data
+  };
+};
+
+const fetchExamDetails = (examID, submissionID) => {
+  console.log(examID);
+  return dispatch => {
+    axios.get(`/getexamdetails/${examID}`).then(res => {
+      const attemptDetails = {
+        submissionID: submissionID,
+        exam: res.data.exam
+      };
+      console.log(attemptDetails);
+      dispatch(startExamSuccess(attemptDetails));
+    });
+  };
+};
+
+export const startExam = examID => {
+  return dispatch => {
+    dispatch(startExamRequest());
+    axios.defaults.headers.common["Authorization"] = localStorage.tokenID;
+    axios
+      .post("/startexam", { examID })
+      .then(res => {
+        console.log(res.data);
+        const submissionID = res.data.submissionID;
+        dispatch(fetchExamDetails(examID, submissionID));
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 };

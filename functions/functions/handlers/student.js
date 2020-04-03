@@ -49,34 +49,30 @@ exports.pastExams = (req, res) => {
 };
 
 exports.startexam = (req, res) => {
-  let examID = req.body.examID;
+  const examID = req.body;
   db.collection("available_exams")
     .where("examID", "==", examID)
     .limit(1)
     .get()
     .then(() => {
       const submission = {
-        examID: req.body.examID,
+        examID: examID,
         uid: req.user.uid,
         selection: [],
         submitted: false
       };
-      return db
-        .collection("submissions")
+      db.collection("submissions")
         .add(submission)
         .then(data => {
           const subID = data.id;
-          let uersRef = db.collection("users").doc(submission.uid);
-          return uersRef
+          let usersRef = db.collection("users").doc(submission.uid);
+          usersRef
             .update({
               submissions: admin.firestore.FieldValue.arrayUnion(subID)
             })
             .then(() => {
-              return res.json({ message: `Submission ID ${subID}` });
+              return res.json({ submissionID: subID });
             });
-        })
-        .catch(err => {
-          res.json({ error: err });
         });
     })
     .catch(err => {

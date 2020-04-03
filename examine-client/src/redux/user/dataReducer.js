@@ -9,7 +9,9 @@ import {
   FETCH_AVAILABLE_EXAMS_REQUEST,
   FETCH_AVAILABLE_EXAMS_SUCCESS,
   FETCH_PAST_EXAMS_REQUEST,
-  FETCH_PAST_EXAMS_SUCCESS
+  FETCH_PAST_EXAMS_SUCCESS,
+  START_EXAM_REQUEST,
+  START_EXAM_SUCCESS
 } from "./actionNames";
 
 const init = {
@@ -19,7 +21,12 @@ const init = {
   pastExams: [],
   availableExams: [],
   loadingAvailableExams: false,
-  loadingPastExams: false
+  loadingPastExams: false,
+  startingExam: false,
+  attemptDetails: {
+    exam: {},
+    submissionID: ""
+  }
 };
 
 export const dataReducer = (state = init, action) => {
@@ -100,6 +107,19 @@ export const dataReducer = (state = init, action) => {
         ...state,
         loadingPastExams: false,
         pastExams: pastExams
+      };
+
+    case START_EXAM_REQUEST:
+      return {
+        ...state,
+        startingExam: true
+      };
+
+    case START_EXAM_SUCCESS:
+      return {
+        ...state,
+        attemptDetails: action.payload,
+        startingExam: false
       };
 
     default:
