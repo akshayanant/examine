@@ -6,20 +6,20 @@ import {
   USER_SIGNUP_SUCCESS,
   USER_LOGOUT_SUCCESS,
   USER_LOGIN_ERROR,
-  FETCH_ALL_EXAMS_REQUEST,
-  FETCH_ALL_EXAMS_SUCCESS,
   FETCH_AVAILABLE_EXAMS_REQUEST,
-  FETCH_AVAILABLE_EXAMS_SUCCESS
+  FETCH_AVAILABLE_EXAMS_SUCCESS,
+  FETCH_PAST_EXAMS_REQUEST,
+  FETCH_PAST_EXAMS_SUCCESS
 } from "./actionNames";
 
 const init = {
   loading: false,
   authorized: false,
   authError: false,
-  allExams: [],
+  pastExams: [],
   availableExams: [],
   loadingAvailableExams: false,
-  loadingAllExams: false
+  loadingPastExams: false
 };
 
 export const dataReducer = (state = init, action) => {
@@ -72,19 +72,6 @@ export const dataReducer = (state = init, action) => {
         authorized: false
       };
 
-    case FETCH_ALL_EXAMS_REQUEST:
-      return {
-        ...state,
-        loadingAllExams: true
-      };
-
-    case FETCH_ALL_EXAMS_SUCCESS:
-      return {
-        ...state,
-        loadingAllExams: false,
-        allExams: [...action.payload]
-      };
-
     case FETCH_AVAILABLE_EXAMS_REQUEST:
       return {
         ...state,
@@ -98,6 +85,21 @@ export const dataReducer = (state = init, action) => {
         ...state,
         loadingAvailableExams: false,
         availableExams: availableExams
+      };
+
+    case FETCH_PAST_EXAMS_REQUEST:
+      return {
+        ...state,
+        loadingPastExams: true
+      };
+
+    case FETCH_PAST_EXAMS_SUCCESS:
+      let pastExams = [...state.pastExams];
+      pastExams.push(action.payload);
+      return {
+        ...state,
+        loadingPastExams: false,
+        pastExams: pastExams
       };
 
     default:

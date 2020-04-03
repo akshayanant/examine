@@ -6,11 +6,10 @@ import {
   USER_SIGNUP_SUCCESS,
   USER_LOGOUT_SUCCESS,
   USER_LOGOUT_REQUEST,
-  FETCH_ALL_EXAMS_REQUEST,
-  FETCH_AVAILABLE_EXAMS,
-  FETCH_ALL_EXAMS_SUCCESS,
   FETCH_AVAILABLE_EXAMS_REQUEST,
-  FETCH_AVAILABLE_EXAMS_SUCCESS
+  FETCH_AVAILABLE_EXAMS_SUCCESS,
+  FETCH_PAST_EXAMS_REQUEST,
+  FETCH_PAST_EXAMS_SUCCESS
 } from "./actionNames";
 import axios from "axios";
 
@@ -109,36 +108,6 @@ export const userLogout = user => {
   };
 };
 
-const fetchAllExamsRequest = () => {
-  return {
-    type: FETCH_ALL_EXAMS_REQUEST
-  };
-};
-
-const fetchAllExamsSuccess = data => {
-  return {
-    type: FETCH_ALL_EXAMS_SUCCESS,
-    payload: data
-  };
-};
-
-export const fetchAllExams = () => {
-  return dispatch => {
-    dispatch(fetchAllExamsRequest());
-    axios.defaults.headers.common["Authorization"] = localStorage.tokenID;
-    console.log(axios.defaults.headers.common["Authorization"]);
-    axios
-      .get("/allexams")
-      .then(res => {
-        console.log(res.data);
-        dispatch(fetchAllExamsSuccess(res.data));
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-};
-
 const fetchAvailableExamsRequest = () => {
   return {
     type: FETCH_AVAILABLE_EXAMS_REQUEST
@@ -165,6 +134,45 @@ export const fetchAvailableExams = () => {
             console.log(res.data);
             dispatch(
               fetchAvailableExamsSuccess({
+                examID: exam.examID,
+                exam: res.data.exam
+              })
+            );
+          });
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+};
+
+const fetchPastExamsRequest = () => {
+  return {
+    type: FETCH_PAST_EXAMS_REQUEST
+  };
+};
+
+const fetchPastExamsSuccess = data => {
+  return {
+    type: FETCH_PAST_EXAMS_SUCCESS,
+    payload: data
+  };
+};
+
+export const fetchPastExams = () => {
+  return dispatch => {
+    dispatch(fetchPastExamsRequest());
+    axios.defaults.headers.common["Authorization"] = localStorage.tokenID;
+    axios
+      .get("/pastexams")
+      .then(res => {
+        const pastExams = res.data;
+        pastExams.forEach(exam => {
+          axios.get(`/getexamdetails/${exam.examID}`).then(res => {
+            console.log(res.data);
+            dispatch(
+              fetchPastExamsSuccess({
                 examID: exam.examID,
                 exam: res.data.exam
               })

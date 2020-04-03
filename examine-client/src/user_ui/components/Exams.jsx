@@ -1,20 +1,20 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { fetchAllExams, fetchAvailableExams } from "../../redux/user/actions";
+import { fetchAvailableExams, fetchPastExams } from "../../redux/user/actions";
 import ExamCard from "./ExamCard";
 import LoadingSpinner from "./LoadingSpinner";
 
 class Exams extends Component {
   componentDidMount() {
-    this.props.fetchAllExams();
+    this.props.fetchPastExams();
     this.props.fetchAvailableExams();
   }
 
   render() {
-    const allExams = this.props.allExams;
+    const pastExams = this.props.pastExams;
     const availableExams = this.props.availableExams;
-    const loadingAllExams = this.props.loadingAllExams;
+    const loadingPastExams = this.props.loadingPastExams;
     const loadingAvailableExams = this.props.loadingAvailableExams;
 
     const availableExamsMarkUp = loadingAvailableExams ? (
@@ -32,10 +32,10 @@ class Exams extends Component {
         );
       })
     );
-    const examsMarkUp = loadingAllExams ? (
+    const pastExamsMarkUp = loadingPastExams ? (
       <LoadingSpinner />
     ) : (
-      allExams.map(exam => {
+      pastExams.map(exam => {
         return (
           <ExamCard
             exam={exam.exam}
@@ -54,8 +54,8 @@ class Exams extends Component {
           <div>{availableExamsMarkUp}</div>
         </div>
         <div className="exams-card-container">
-          <h4>All Exams</h4>
-          <div>{examsMarkUp}</div>
+          <h4>Past Exams</h4>
+          <div>{pastExamsMarkUp}</div>
         </div>
       </div>
     );
@@ -64,16 +64,16 @@ class Exams extends Component {
 
 const mapStateToProps = state => {
   return {
-    allExams: state.user.allExams,
+    pastExams: state.user.pastExams,
     availableExams: state.user.availableExams,
-    loadingAllExams: state.user.loadingAllExams,
+    loadingPastExams: state.user.loadingPastExams,
     loadingAvailableExams: state.user.loadingAvailableExams
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchAllExams: () => dispatch(fetchAllExams()),
+    fetchPastExams: () => dispatch(fetchPastExams()),
     fetchAvailableExams: () => dispatch(fetchAvailableExams())
   };
 };
