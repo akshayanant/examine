@@ -9,7 +9,7 @@ class Exam extends Component {
     const button = this.props.examID ? (
       <div>
         <Button
-          href={`/editexam/${this.props.examID}`}
+          href={`/admin/editexam/${this.props.examID}`}
           outline
           color="success"
           className="mr-3"

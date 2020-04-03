@@ -5,9 +5,12 @@ exports.createExam = (req, res) => {
   const newExam = {
     questions: [],
     createdAt: new Date().toISOString(),
-    examName: req.body.examName
+    examName: req.body.examName,
+    attempts: 1,
+    duration: 15,
+    points: 0
   };
-  db.collection("exam")
+  db.collection("all_exams")
     .add(newExam)
     .then(data => {
       return res.json({
@@ -19,26 +22,34 @@ exports.createExam = (req, res) => {
 
 exports.launchexam = (req, res) => {
   examID = req.body.examID;
-  db.doc(`/availableexams/${examID}`)
+  db.doc(`/available_exams/${examID}`)
     .set({ examID })
     .then(() => {
-      res.json({ message: "Exam Launched Successfully" });
+      db.doc(`/past_exams/${examID}`)
+        .delete()
+        .then(() => {
+          res.json({ message: "Exam Launched Successfully" });
+        });
     })
     .catch(err => console.error(err));
 };
 
 exports.disableexam = (req, res) => {
   examID = req.body.examID;
-  db.doc(`/availableexams/${examID}`)
+  db.doc(`/available_exams/${examID}`)
     .delete()
     .then(() => {
-      res.json({ message: "Exam Disbaled Successfully" });
+      db.doc(`/past_exams/${examID}`)
+        .set({ examID })
+        .then(() => {
+          res.json({ message: "Exam Disbaled Successfully" });
+        });
     })
     .catch(err => console.error(err));
 };
 
 exports.getExams = (req, res) => {
-  db.collection("exam")
+  db.collection("all_exams")
     .orderBy("createdAt", "desc")
     .get()
     .then(data => {
@@ -56,14 +67,14 @@ exports.getExams = (req, res) => {
 };
 
 exports.activeExams = (req, res) => {
-  db.collection("availableexams")
+  db.collection("available_exams")
     .get()
     .then(data => {
       let active = [];
       data.forEach(doc => {
         active.push(doc.data().examID);
       });
-      db.collection("exam")
+      db.collection("all_exams")
         .get()
         .then(data => {
           let exams = [];
@@ -87,7 +98,7 @@ exports.activeExams = (req, res) => {
 exports.getExamDetails = (req, res) => {
   const examID = req.params.examID;
   console.log(examID);
-  db.doc(`/exam/${examID}`)
+  db.doc(`/all_exams/${examID}`)
     .get()
     .then(data => {
       res.json({ exam: data.data() });
@@ -164,7 +175,7 @@ exports.addquestion = (req, res) => {
 exports.appendquestion = (req, res) => {
   questionID = req.body.questionID;
   examID = req.body.examID;
-  let examRef = db.collection("exam").doc(examID);
+  let examRef = db.collection("all_exams").doc(examID);
   examRef
     .update({ questions: admin.firestore.FieldValue.arrayUnion(questionID) })
     .then(() => {
@@ -178,7 +189,7 @@ exports.appendquestion = (req, res) => {
 exports.removequestion = (req, res) => {
   questionID = req.body.questionID;
   examID = req.body.examID;
-  let examRef = db.collection("exam").doc(examID);
+  let examRef = db.collection("all_exams").doc(examID);
   examRef
     .update({ questions: admin.firestore.FieldValue.arrayRemove(questionID) })
     .then(() => {

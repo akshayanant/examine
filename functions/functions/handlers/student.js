@@ -1,7 +1,7 @@
 const { db, admin } = require("./../config/admin");
 
 exports.availableexams = (req, res) => {
-  db.collection("availableexams")
+  db.collection("available_exams")
     .get()
     .then(data => {
       let exams = [];
@@ -16,7 +16,7 @@ exports.availableexams = (req, res) => {
 };
 
 exports.allExams = (req, res) => {
-  db.collection("exam")
+  db.collection("all_exams")
     .get()
     .then(data => {
       let exams = [];
@@ -33,9 +33,24 @@ exports.allExams = (req, res) => {
     });
 };
 
+exports.pastExams = (req, res) => {
+  db.collection("past_exams")
+    .get()
+    .then(data => {
+      let exams = [];
+      data.forEach(doc => {
+        exams.push(doc.data());
+      });
+      return res.json(exams);
+    })
+    .catch(err => {
+      console.error(err);
+    });
+};
+
 exports.startexam = (req, res) => {
   let examID = req.body.examID;
-  db.collection("availableexams")
+  db.collection("available_exams")
     .where("examID", "==", examID)
     .limit(1)
     .get()

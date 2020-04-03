@@ -20,7 +20,8 @@ const {
   startexam,
   availableexams,
   submitexam,
-  allExams
+  allExams,
+  pastExams
 } = require("./handlers/student");
 
 // // Create and Deploy Your First Cloud Functions
@@ -51,6 +52,8 @@ app.post("/signout", signout);
 
 app.get("/availableexams", fbAuth, availableexams);
 app.get("/allexams", fbAuth, allExams);
+app.get("/pastexams", fbAuth, pastExams);
+
 app.post("/startexam", fbAuth, startexam);
 app.post("/submitexam", fbAuth, submitexam);
 

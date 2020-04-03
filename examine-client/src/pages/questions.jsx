@@ -28,7 +28,7 @@ class questions extends Component {
     return (
       <div className="questions-container">
         <div className="add-question-button">
-          <Button component={Link} href="/addquestion">
+          <Button component={Link} href="/admin/addquestion">
             Add Question
           </Button>
         </div>
