@@ -2,13 +2,14 @@ import React, { Component } from "react";
 import { Navbar, NavbarBrand, Button } from "reactstrap";
 import { connect } from "react-redux";
 import { userLogout } from "./../../redux/user/actions";
+import { auth } from "../util/auth";
 
 class UserNavbar extends Component {
   render() {
-    const tokenID = localStorage.tokenID;
+    const valid = auth(localStorage.tokenID);
     const authorized = this.props.authorized;
     const loading = this.props.loading;
-    const buttonMarkup = tokenID ? (
+    const buttonMarkup = valid ? (
       <Button onClick={this.props.logout}>Logout</Button>
     ) : (
       ""
@@ -22,16 +23,16 @@ class UserNavbar extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     authorized: state.user.authorized,
-    loading: state.user.loading
+    loading: state.user.loading,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    logout: () => dispatch(userLogout())
+    logout: () => dispatch(userLogout()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(UserNavbar);

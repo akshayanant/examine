@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Button, CardHeader, Card, CardBody } from "reactstrap";
+import { Redirect } from "react-router-dom";
 
 import LoadingSpinner from "./LoadingSpinner";
 import { startExam, submitExam } from "../../redux/user/actions";
 import QuestionCard from "./QuestionCard";
-import { Button, CardHeader, Card, CardBody } from "reactstrap";
-import { Redirect } from "react-router-dom";
+import { auth } from "./../util/auth";
+
 class ExamLauncher extends Component {
   constructor(props) {
     super(props);
@@ -47,6 +49,12 @@ class ExamLauncher extends Component {
   };
 
   render() {
+    const valid = auth(localStorage.tokenID);
+    const authorized = this.props.authorized;
+    const loading = this.props.loading;
+    if (!valid) {
+      return <Redirect to="/" />;
+    }
     let i = 1;
     const redirectMarkUp = this.props.submitted ? <Redirect to="/exams" /> : "";
     const questionsMarkUP = this.props.attemptDetails.exam.questions.map(
@@ -91,6 +99,8 @@ class ExamLauncher extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    authorized: state.user.authorized,
+    loading: state.user.loading,
     launchingExam: state.user.startingExam,
     attemptDetails: state.user.attemptDetails,
     submittingExam: state.user.submittingExam,

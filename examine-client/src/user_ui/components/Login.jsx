@@ -14,7 +14,7 @@ class Login extends Component {
       newLastName: "",
       newEmail: "",
       newPassword: "",
-      confirmPassword: ""
+      confirmPassword: "",
     };
     this.handleChangeLoginEmail = this.handleChangeLoginEmail.bind(this);
     this.handleChangeLoginPassword = this.handleChangeLoginPassword.bind(this);
@@ -29,32 +29,32 @@ class Login extends Component {
     this.handleChangeNewLastName = this.handleChangeNewLastName.bind(this);
   }
 
-  handleChangeLoginEmail = event => {
+  handleChangeLoginEmail = (event) => {
     this.setState({ loginEmail: event.target.value });
   };
-  handleChangeLoginPassword = event => {
+  handleChangeLoginPassword = (event) => {
     this.setState({ loginPassword: event.target.value });
   };
-  handleChangeNewFirstName = event => {
+  handleChangeNewFirstName = (event) => {
     this.setState({ newFirstName: event.target.value });
   };
-  handleChangeNewLastName = event => {
+  handleChangeNewLastName = (event) => {
     this.setState({ newLastName: event.target.value });
   };
-  handleChangeNewEmail = event => {
+  handleChangeNewEmail = (event) => {
     this.setState({ newEmail: event.target.value });
   };
-  handleChangeNewPassword = event => {
+  handleChangeNewPassword = (event) => {
     this.setState({ newPassword: event.target.value });
   };
-  handleChangeConfirmPassword = event => {
+  handleChangeConfirmPassword = (event) => {
     this.setState({ confirmPassword: event.target.value });
   };
 
   handleLogin = () => {
     const user = {
       email: this.state.loginEmail,
-      password: this.state.loginPassword
+      password: this.state.loginPassword,
     };
     this.props.login(user);
   };
@@ -65,7 +65,7 @@ class Login extends Component {
       lastName: this.state.newLastName,
       email: this.state.newEmail,
       password: this.state.newPassword,
-      confirmPassword: this.state.confirmPassword
+      confirmPassword: this.state.confirmPassword,
     };
     this.props.signup(newUser);
   };
@@ -107,7 +107,7 @@ class Login extends Component {
         </Button>
         <hr></hr>
         <div>
-          <Label className="pt-5">Not a Member yet?</Label>
+          <Label>Not a Member yet?</Label>
         </div>
         <Label className="pb-3">Sign up with your details below!</Label>
         <div className="login-names">
@@ -159,20 +159,20 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    authError: state.user.authError
+    authError: state.user.authError,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    signup: user => {
+    signup: (user) => {
       dispatch(userSignUp(user));
     },
-    login: user => {
+    login: (user) => {
       dispatch(userLogin(user));
-    }
+    },
   };
 };
 
