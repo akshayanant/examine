@@ -13,7 +13,9 @@ import {
   START_EXAM_REQUEST,
   START_EXAM_SUCCESS,
   FETCH_QUESTION_REQUEST,
-  FETCH_QUESTION_SUCCESS
+  FETCH_QUESTION_SUCCESS,
+  SUBMIT_EXAM_REQUEST,
+  SUBMIT_EXAM_SUCCESS,
 } from "./actionNames";
 
 const init = {
@@ -31,11 +33,12 @@ const init = {
       duration: 0,
       attempts: 1,
       points: 0,
-      questions: []
+      questions: [],
     },
-    submissionID: ""
+    submissionID: "",
   },
-  loadingQuestions: 0
+  submittingExam: false,
+  submitted: false,
 };
 
 export const dataReducer = (state = init, action) => {
@@ -43,7 +46,7 @@ export const dataReducer = (state = init, action) => {
     case USER_LOGIN_REQUEST:
       return {
         ...state,
-        loading: true
+        loading: true,
       };
 
     case USER_LOGIN_SUCCESS:
@@ -51,20 +54,20 @@ export const dataReducer = (state = init, action) => {
         ...state,
         loading: false,
         authorized: true,
-        authError: false
+        authError: false,
       };
 
     case USER_LOGIN_ERROR:
       return {
         ...state,
         loading: false,
-        authError: true
+        authError: true,
       };
 
     case USER_SIGNUP_REQUEST:
       return {
         ...state,
-        loading: true
+        loading: true,
       };
 
     case USER_SIGNUP_SUCCESS:
@@ -72,26 +75,26 @@ export const dataReducer = (state = init, action) => {
         ...state,
         loading: false,
         authorized: true,
-        authError: false
+        authError: false,
       };
 
     case USER_LOGOUT_REQUEST:
       return {
         ...state,
-        loading: true
+        loading: true,
       };
 
     case USER_LOGOUT_SUCCESS:
       return {
         ...state,
         loading: false,
-        authorized: false
+        authorized: false,
       };
 
     case FETCH_AVAILABLE_EXAMS_REQUEST:
       return {
         ...state,
-        loadingAvailableExams: true
+        loadingAvailableExams: true,
       };
 
     case FETCH_AVAILABLE_EXAMS_SUCCESS:
@@ -100,13 +103,13 @@ export const dataReducer = (state = init, action) => {
       return {
         ...state,
         loadingAvailableExams: false,
-        availableExams: availableExams
+        availableExams: availableExams,
       };
 
     case FETCH_PAST_EXAMS_REQUEST:
       return {
         ...state,
-        loadingPastExams: true
+        loadingPastExams: true,
       };
 
     case FETCH_PAST_EXAMS_SUCCESS:
@@ -115,37 +118,50 @@ export const dataReducer = (state = init, action) => {
       return {
         ...state,
         loadingPastExams: false,
-        pastExams: pastExams
+        pastExams: pastExams,
       };
 
     case START_EXAM_REQUEST:
       return {
         ...state,
-        startingExam: true
+        startingExam: true,
       };
 
     case START_EXAM_SUCCESS:
       return {
         ...state,
         attemptDetails: { ...action.payload },
-        startingExam: false
+        startingExam: false,
       };
 
     case FETCH_QUESTION_REQUEST:
       const loadingQuestions = state.loadingQuestions + 1;
       return {
         ...state,
-        loadingQuestions: loadingQuestions
+        loadingQuestions: loadingQuestions,
       };
 
     case FETCH_QUESTION_SUCCESS:
       return {
-        ...state
+        ...state,
+      };
+
+    case SUBMIT_EXAM_REQUEST:
+      return {
+        ...state,
+        submittingExam: true,
+      };
+
+    case SUBMIT_EXAM_SUCCESS:
+      return {
+        ...state,
+        submittingExam: false,
+        submitted: true,
       };
 
     default:
       return {
-        ...state
+        ...state,
       };
   }
 };

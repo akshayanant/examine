@@ -10,7 +10,7 @@ import {
   FormGroup,
   Label,
   Input,
-  Form
+  Form,
 } from "reactstrap";
 import axios from "axios";
 
@@ -29,15 +29,15 @@ class QuestionCard extends Component {
         option3: "",
         option4: "",
         questionFooter: "",
-        points: 0
+        points: 0,
       },
-      selection: [false, false, false, false]
+      selection: [false, false, false, false],
     };
     this.handleChangeSelection = this.handleChangeSelection.bind(this);
     this.handleClearSelection = this.handleClearSelection.bind(this);
   }
   componentDidMount() {
-    axios.get(`/getquestiondetails/${this.props.questionID}`).then(res => {
+    axios.get(`/getquestiondetails/${this.props.questionID}`).then((res) => {
       console.log(res.data);
       this.setState({ question: res.data.question });
     });
@@ -60,28 +60,24 @@ class QuestionCard extends Component {
   render() {
     const index = this.props.index;
     const conclusionsMarkUp = (
-      <div>
-        <div>
-          {this.state.question.conclusion1.length > 0 ? (
-            <p> (1) {this.state.question.conclusion1}</p>
-          ) : (
-            ""
-          )}
-        </div>
-        <div>
-          {this.state.question.conclusion2.length > 0 ? (
-            <p> (2) {this.state.question.conclusion2}</p>
-          ) : (
-            ""
-          )}
-        </div>
-        <div>
-          {this.state.question.conclusion3.length > 0 ? (
-            <p> (3) {this.state.question.conclusion3}</p>
-          ) : (
-            ""
-          )}
-        </div>
+      <div className="conclusions-markup">
+        {this.state.question.conclusion1.length > 0 ? (
+          <p> (1) {this.state.question.conclusion1}</p>
+        ) : (
+          ""
+        )}
+
+        {this.state.question.conclusion2.length > 0 ? (
+          <p> (2) {this.state.question.conclusion2}</p>
+        ) : (
+          ""
+        )}
+
+        {this.state.question.conclusion3.length > 0 ? (
+          <p> (3) {this.state.question.conclusion3}</p>
+        ) : (
+          ""
+        )}
       </div>
     );
 
@@ -89,7 +85,7 @@ class QuestionCard extends Component {
       <div>
         <Form>
           <FormGroup>
-            <FormGroup check>
+            <FormGroup className="options-form-group" check>
               <Label check>
                 <Input
                   type="radio"
@@ -100,7 +96,7 @@ class QuestionCard extends Component {
                 {this.state.question.option1}
               </Label>
             </FormGroup>
-            <FormGroup check>
+            <FormGroup className="options-form-group" check>
               <Label check>
                 <Input
                   type="radio"
@@ -111,7 +107,7 @@ class QuestionCard extends Component {
                 {this.state.question.option2}
               </Label>
             </FormGroup>
-            <FormGroup check>
+            <FormGroup className="options-form-group" check>
               <Label check>
                 <Input
                   type="radio"
@@ -122,7 +118,7 @@ class QuestionCard extends Component {
                 {this.state.question.option3}
               </Label>
             </FormGroup>
-            <FormGroup check>
+            <FormGroup className="options-form-group" check>
               <Label check>
                 <Input
                   type="radio"
@@ -138,29 +134,21 @@ class QuestionCard extends Component {
       </div>
     );
     return (
-      <div>
-        <Card>
-          <CardHeader> Question - {index}</CardHeader>
-          <CardBody>
-            <CardTitle>
-              {this.state.question.question}
-              <p></p>
-              {conclusionsMarkUp}
-              <p></p>
-              {this.state.question.questionFooter}
-            </CardTitle>
-            <CardText>{optionsMarkUp}</CardText>
-            <Button
-              color="success"
-              size="sm"
-              onClick={this.handleClearSelection}
-            >
-              clear
-            </Button>
-          </CardBody>
-          <CardFooter>Footer</CardFooter>
-        </Card>
-      </div>
+      <Card className="user-question-card">
+        <CardHeader> Question - {index}</CardHeader>
+        <CardBody>
+          <CardTitle>
+            {this.state.question.question}
+            <p></p>
+            <div>{conclusionsMarkUp}</div>
+            {this.state.question.questionFooter}
+            {optionsMarkUp}
+          </CardTitle>
+          <Button color="success" size="sm" onClick={this.handleClearSelection}>
+            clear
+          </Button>
+        </CardBody>
+      </Card>
     );
   }
 }

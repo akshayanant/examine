@@ -6,7 +6,7 @@ class ExamLauncherPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      examID: ""
+      examID: "",
     };
   }
 
@@ -16,7 +16,7 @@ class ExamLauncherPage extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="main-content-container">
         <ExamLauncher examID={this.props.match.params.examID} />
       </div>
     );

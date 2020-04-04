@@ -15,41 +15,41 @@ import {
   FETCH_QUESTION_REQUEST,
   FETCH_QUESTION_SUCCESS,
   SUBMIT_EXAM_REQUEST,
-  SUBMIT_EXAM_SUCCESS
+  SUBMIT_EXAM_SUCCESS,
 } from "./actionNames";
 import axios from "axios";
 
 export const userLoginRequest = () => {
   return {
-    type: USER_LOGIN_REQUEST
+    type: USER_LOGIN_REQUEST,
   };
 };
 
-export const userLoginSuccess = data => {
+export const userLoginSuccess = (data) => {
   const tokenID = `Bearer ${data.tokenID}`;
   localStorage.setItem("tokenID", tokenID);
   axios.defaults.headers.common["Authorization"] = tokenID;
   return {
-    type: USER_LOGIN_SUCCESS
+    type: USER_LOGIN_SUCCESS,
   };
 };
 
-export const userLoginError = data => {
+export const userLoginError = (data) => {
   return {
     type: USER_LOGIN_ERROR,
-    payload: data.error
+    payload: data.error,
   };
 };
 
-export const userLogin = user => {
-  return dispatch => {
+export const userLogin = (user) => {
+  return (dispatch) => {
     dispatch(userLoginRequest());
     axios
       .post("/signin", user)
-      .then(res => {
+      .then((res) => {
         dispatch(userLoginSuccess(res.data));
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch(userLoginError(err));
       });
   };
@@ -57,149 +57,149 @@ export const userLogin = user => {
 
 export const userSignUpRequest = () => {
   return {
-    type: USER_SIGNUP_REQUEST
+    type: USER_SIGNUP_REQUEST,
   };
 };
 
-export const userSignUpSuccess = data => {
+export const userSignUpSuccess = (data) => {
   const tokenID = `Bearer ${data.tokenID}`;
   localStorage.setItem("tokenID", tokenID);
   axios.defaults.headers.common["Authorization"] = tokenID;
   return {
-    type: USER_SIGNUP_SUCCESS
+    type: USER_SIGNUP_SUCCESS,
   };
 };
 
-export const userSignUp = user => {
-  return dispatch => {
+export const userSignUp = (user) => {
+  return (dispatch) => {
     dispatch(userSignUpRequest());
     axios
       .post("/signup", user)
-      .then(res => {
+      .then((res) => {
         dispatch(userSignUpSuccess(res.data));
       })
-      .catch(err => {});
+      .catch((err) => {});
   };
 };
 
 export const userLogoutRequest = () => {
   return {
-    type: USER_LOGOUT_REQUEST
+    type: USER_LOGOUT_REQUEST,
   };
 };
 
-export const userLogoutSuccess = data => {
+export const userLogoutSuccess = (data) => {
   localStorage.removeItem("tokenID");
   delete axios.defaults.headers.common["Authorization"];
   return {
-    type: USER_LOGOUT_SUCCESS
+    type: USER_LOGOUT_SUCCESS,
   };
 };
 
-export const userLogout = user => {
-  return dispatch => {
+export const userLogout = (user) => {
+  return (dispatch) => {
     dispatch(userLogoutRequest());
     axios
       .post("/signout")
-      .then(res => {
+      .then((res) => {
         dispatch(userLogoutSuccess(res.data));
       })
-      .catch(err => {});
+      .catch((err) => {});
   };
 };
 
 const fetchAvailableExamsRequest = () => {
   return {
-    type: FETCH_AVAILABLE_EXAMS_REQUEST
+    type: FETCH_AVAILABLE_EXAMS_REQUEST,
   };
 };
 
-const fetchAvailableExamsSuccess = data => {
+const fetchAvailableExamsSuccess = (data) => {
   return {
     type: FETCH_AVAILABLE_EXAMS_SUCCESS,
-    payload: data
+    payload: data,
   };
 };
 
 export const fetchAvailableExams = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(fetchAvailableExamsRequest());
     axios.defaults.headers.common["Authorization"] = localStorage.tokenID;
     axios
       .get("/availableexams")
-      .then(res => {
+      .then((res) => {
         const availableExams = res.data;
-        availableExams.forEach(exam => {
-          axios.get(`/getexamdetails/${exam.examID}`).then(res => {
+        availableExams.forEach((exam) => {
+          axios.get(`/getexamdetails/${exam.examID}`).then((res) => {
             dispatch(
               fetchAvailableExamsSuccess({
                 examID: exam.examID,
-                exam: res.data.exam
+                exam: res.data.exam,
               })
             );
           });
         });
       })
-      .catch(err => {});
+      .catch((err) => {});
   };
 };
 
 const fetchPastExamsRequest = () => {
   return {
-    type: FETCH_PAST_EXAMS_REQUEST
+    type: FETCH_PAST_EXAMS_REQUEST,
   };
 };
 
-const fetchPastExamsSuccess = data => {
+const fetchPastExamsSuccess = (data) => {
   return {
     type: FETCH_PAST_EXAMS_SUCCESS,
-    payload: data
+    payload: data,
   };
 };
 
 export const fetchPastExams = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(fetchPastExamsRequest());
     axios.defaults.headers.common["Authorization"] = localStorage.tokenID;
     axios
       .get("/pastexams")
-      .then(res => {
+      .then((res) => {
         const pastExams = res.data;
-        pastExams.forEach(exam => {
-          axios.get(`/getexamdetails/${exam.examID}`).then(res => {
+        pastExams.forEach((exam) => {
+          axios.get(`/getexamdetails/${exam.examID}`).then((res) => {
             dispatch(
               fetchPastExamsSuccess({
                 examID: exam.examID,
-                exam: res.data.exam
+                exam: res.data.exam,
               })
             );
           });
         });
       })
-      .catch(err => {});
+      .catch((err) => {});
   };
 };
 
 const startExamRequest = () => {
   return {
-    type: START_EXAM_REQUEST
+    type: START_EXAM_REQUEST,
   };
 };
 
-const startExamSuccess = data => {
+const startExamSuccess = (data) => {
   return {
     type: START_EXAM_SUCCESS,
-    payload: data
+    payload: data,
   };
 };
 
 const fetchExamDetails = (examID, submissionID) => {
   console.log(examID);
-  return dispatch => {
-    axios.get(`/getexamdetails/${examID}`).then(res => {
+  return (dispatch) => {
+    axios.get(`/getexamdetails/${examID}`).then((res) => {
       const attemptDetails = {
         submissionID: submissionID,
-        exam: res.data.exam
+        exam: res.data.exam,
       };
       console.log(attemptDetails);
       dispatch(startExamSuccess(attemptDetails));
@@ -207,18 +207,18 @@ const fetchExamDetails = (examID, submissionID) => {
   };
 };
 
-export const startExam = examID => {
-  return dispatch => {
+export const startExam = (examID) => {
+  return (dispatch) => {
     dispatch(startExamRequest());
     axios.defaults.headers.common["Authorization"] = localStorage.tokenID;
     axios
       .post("/startexam", { examID })
-      .then(res => {
+      .then((res) => {
         console.log(res.data);
         const submissionID = res.data.submissionID;
         dispatch(fetchExamDetails(examID, submissionID));
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -226,21 +226,21 @@ export const startExam = examID => {
 
 const fetchQuestionRequest = () => {
   return {
-    type: FETCH_QUESTION_REQUEST
+    type: FETCH_QUESTION_REQUEST,
   };
 };
 
-const fetchQuestionSuccess = data => {
+const fetchQuestionSuccess = (data) => {
   return {
     type: FETCH_QUESTION_SUCCESS,
-    payload: data
+    payload: data,
   };
 };
 
-export const fetchQuestionDetails = questionID => {
-  return dispatch => {
+export const fetchQuestionDetails = (questionID) => {
+  return (dispatch) => {
     dispatch(fetchQuestionRequest());
-    axios.fetch(`/getquestiondetails/${questionID}`).then(res => {
+    axios.fetch(`/getquestiondetails/${questionID}`).then((res) => {
       dispatch(fetchQuestionSuccess(res.data));
     });
   };
@@ -248,17 +248,31 @@ export const fetchQuestionDetails = questionID => {
 
 const submitExamRequest = () => {
   return {
-    type: SUBMIT_EXAM_REQUEST
+    type: SUBMIT_EXAM_REQUEST,
   };
 };
 
 const submitExamSuccess = () => {
   return {
-    type: SUBMIT_EXAM_SUCCESS
+    type: SUBMIT_EXAM_SUCCESS,
   };
 };
 
 export const submitExam = (submissionID, answers) => {
-  console.log(submissionID);
-  console.log(answers);
+  return (dispatch) => {
+    dispatch(submitExamRequest());
+    const submission = {
+      submissionID: submissionID,
+      answers: answers,
+    };
+    axios
+      .post("/submitexam", submission)
+      .then((res) => {
+        console.log(res.data);
+        dispatch(submitExamSuccess());
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 };
