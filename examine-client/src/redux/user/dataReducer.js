@@ -11,7 +11,9 @@ import {
   FETCH_PAST_EXAMS_REQUEST,
   FETCH_PAST_EXAMS_SUCCESS,
   START_EXAM_REQUEST,
-  START_EXAM_SUCCESS
+  START_EXAM_SUCCESS,
+  FETCH_QUESTION_REQUEST,
+  FETCH_QUESTION_SUCCESS
 } from "./actionNames";
 
 const init = {
@@ -24,9 +26,16 @@ const init = {
   loadingPastExams: false,
   startingExam: false,
   attemptDetails: {
-    exam: {},
+    exam: {
+      examName: "",
+      duration: 0,
+      attempts: 1,
+      points: 0,
+      questions: []
+    },
     submissionID: ""
-  }
+  },
+  loadingQuestions: 0
 };
 
 export const dataReducer = (state = init, action) => {
@@ -118,8 +127,20 @@ export const dataReducer = (state = init, action) => {
     case START_EXAM_SUCCESS:
       return {
         ...state,
-        attemptDetails: action.payload,
+        attemptDetails: { ...action.payload },
         startingExam: false
+      };
+
+    case FETCH_QUESTION_REQUEST:
+      const loadingQuestions = state.loadingQuestions + 1;
+      return {
+        ...state,
+        loadingQuestions: loadingQuestions
+      };
+
+    case FETCH_QUESTION_SUCCESS:
+      return {
+        ...state
       };
 
     default:

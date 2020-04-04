@@ -11,7 +11,11 @@ import {
   FETCH_PAST_EXAMS_REQUEST,
   FETCH_PAST_EXAMS_SUCCESS,
   START_EXAM_REQUEST,
-  START_EXAM_SUCCESS
+  START_EXAM_SUCCESS,
+  FETCH_QUESTION_REQUEST,
+  FETCH_QUESTION_SUCCESS,
+  SUBMIT_EXAM_REQUEST,
+  SUBMIT_EXAM_SUCCESS
 } from "./actionNames";
 import axios from "axios";
 
@@ -218,4 +222,43 @@ export const startExam = examID => {
         console.log(err);
       });
   };
+};
+
+const fetchQuestionRequest = () => {
+  return {
+    type: FETCH_QUESTION_REQUEST
+  };
+};
+
+const fetchQuestionSuccess = data => {
+  return {
+    type: FETCH_QUESTION_SUCCESS,
+    payload: data
+  };
+};
+
+export const fetchQuestionDetails = questionID => {
+  return dispatch => {
+    dispatch(fetchQuestionRequest());
+    axios.fetch(`/getquestiondetails/${questionID}`).then(res => {
+      dispatch(fetchQuestionSuccess(res.data));
+    });
+  };
+};
+
+const submitExamRequest = () => {
+  return {
+    type: SUBMIT_EXAM_REQUEST
+  };
+};
+
+const submitExamSuccess = () => {
+  return {
+    type: SUBMIT_EXAM_SUCCESS
+  };
+};
+
+export const submitExam = (submissionID, answers) => {
+  console.log(submissionID);
+  console.log(answers);
 };
