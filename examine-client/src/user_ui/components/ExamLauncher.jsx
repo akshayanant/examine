@@ -56,7 +56,11 @@ class ExamLauncher extends Component {
       return <Redirect to="/" />;
     }
     let i = 1;
-    const redirectMarkUp = this.props.submitted ? <Redirect to="/exams" /> : "";
+    const redirectMarkUp = this.props.submitted ? (
+      <Redirect to={`/finishexam/${this.props.attemptDetails.submissionID}`} />
+    ) : (
+      ""
+    );
     const questionsMarkUP = this.props.attemptDetails.exam.questions.map(
       (questionID) => {
         return (

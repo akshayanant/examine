@@ -16,6 +16,8 @@ import {
   FETCH_QUESTION_SUCCESS,
   SUBMIT_EXAM_REQUEST,
   SUBMIT_EXAM_SUCCESS,
+  GRADE_SUBMISSION_REQUEST,
+  GRADE_SUBMISSION_SUCCESS,
 } from "./actionNames";
 import axios from "axios";
 
@@ -270,6 +272,38 @@ export const submitExam = (submissionID, answers) => {
       .then((res) => {
         console.log(res.data);
         dispatch(submitExamSuccess());
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
+const gradeSubmissionRequest = () => {
+  return {
+    type: GRADE_SUBMISSION_REQUEST,
+  };
+};
+
+const gradeSubmissionSuccess = () => {
+  return {
+    type: GRADE_SUBMISSION_SUCCESS,
+  };
+};
+
+export const gradeSubmission = (submissionID) => {
+  const submission = {
+    submissionID: submissionID,
+  };
+  console.log(submission);
+  return (dispatch) => {
+    dispatch(gradeSubmissionRequest());
+    axios.defaults.headers.common["Authorization"] = localStorage.tokenID;
+    axios
+      .post("/gradesubmission", submission)
+      .then((res) => {
+        console.log(res.data);
+        dispatch(gradeSubmissionSuccess());
       })
       .catch((err) => {
         console.log(err);

@@ -93,3 +93,64 @@ exports.submitexam = (req, res) => {
       return res.json({ message: `Submission ID ${submissionID}` });
     });
 };
+
+exports.gradeSubmission = (req, res) => {
+  const submissionID = req.body.submissionID;
+  db.doc(`/submissions/${submissionID}`)
+    .get()
+    .then((doc) => {
+      const submission = doc.data();
+      console.log(submissionID);
+      db.doc(`/all_exams/${submission.examID.examID}`)
+        .get()
+        .then((doc) => {
+          const exam = doc.data();
+          const negative = exam.negative;
+          let points = 0.0;
+          let grading = [];
+          const size = submission.answers.length;
+          let i = 1;
+          submission.answers.forEach((answer) => {
+            const questionID = answer.questionID;
+            const userSelection = answer.selection;
+            db.doc(`/questions/${questionID}`)
+              .get()
+              .then((doc) => {
+                const question = doc.data();
+                const correctAnswer = question.answer;
+                let point = 0.0;
+                if (userSelection === correctAnswer) {
+                  point = question.point;
+                } else {
+                  point = negative;
+                }
+                grading.push({
+                  questionID: questionID,
+                  correctAnswer: correctAnswer,
+                  userSelection: userSelection,
+                  point: point,
+                });
+                points += point;
+                if (i == size) {
+                  const result = {
+                    submissionID: submissionID,
+                    grading: grading,
+                    points: points,
+                  };
+                  db.collection("grades")
+                    .add(result)
+                    .then((data) => {
+                      db.collection("submissions")
+                        .doc(submissionID)
+                        .update({ resultID: data.id })
+                        .then(() => {
+                          res.json({ message: "graded successfully!" });
+                        });
+                    });
+                }
+                i++;
+              });
+          });
+        });
+    });
+};
