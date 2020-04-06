@@ -16,6 +16,10 @@ import {
   FETCH_QUESTION_SUCCESS,
   SUBMIT_EXAM_REQUEST,
   SUBMIT_EXAM_SUCCESS,
+  GRADE_SUBMISSION_REQUEST,
+  GRADE_SUBMISSION_SUCCESS,
+  FETCH_GRADES_REQUEST,
+  FETCH_GRADES_SUCCESS,
 } from "./actionNames";
 
 const init = {
@@ -39,6 +43,13 @@ const init = {
   },
   submittingExam: false,
   submitted: false,
+  grading: false,
+  fetchingGrades: false,
+  grade: {
+    grading: [],
+    points: 0,
+    examName: "",
+  },
 };
 
 export const dataReducer = (state = init, action) => {
@@ -159,6 +170,30 @@ export const dataReducer = (state = init, action) => {
         submitted: true,
       };
 
+    case GRADE_SUBMISSION_REQUEST:
+      return {
+        ...state,
+        grading: true,
+      };
+
+    case GRADE_SUBMISSION_SUCCESS:
+      return {
+        ...state,
+        grading: false,
+      };
+
+    case FETCH_GRADES_REQUEST:
+      return {
+        ...state,
+        fetchingGrades: true,
+      };
+
+    case FETCH_GRADES_SUCCESS:
+      return {
+        ...state,
+        grade: { ...action.payload },
+        fetchingGrades: false,
+      };
     default:
       return {
         ...state,

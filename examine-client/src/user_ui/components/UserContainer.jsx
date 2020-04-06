@@ -13,6 +13,7 @@ import ExamsPage from "./../pages/exams";
 import ExamLauncherPage from "./../pages/examLauncherPage";
 import { auth } from "../util/auth";
 import FinishExamPage from "../pages/finishExamPage";
+import ViewResultsPage from "./../pages/viewResultsPage";
 
 class UserContainer extends Component {
   render() {
@@ -44,6 +45,11 @@ class UserContainer extends Component {
               exact
               path="/finishexam/:submissionID"
               component={FinishExamPage}
+            />
+            <Route
+              exact
+              path="/viewresults/:submissionID"
+              component={ViewResultsPage}
             />
           </Switch>
         </div>

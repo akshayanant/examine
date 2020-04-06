@@ -14,7 +14,7 @@ exports.fbAuth = (req, res, next) => {
   admin
     .auth()
     .verifyIdToken(tokenID)
-    .then(decodedToken => {
+    .then((decodedToken) => {
       req.user = decodedToken;
       return db
         .collection("users")
@@ -22,11 +22,11 @@ exports.fbAuth = (req, res, next) => {
         .limit(1)
         .get();
     })
-    .then(data => {
+    .then((data) => {
       req.user.email = data.docs[0].data().email;
       return next();
     })
-    .catch(err => {
+    .catch((err) => {
       res.json({ error: err });
     });
 };

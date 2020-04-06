@@ -18,6 +18,8 @@ import {
   SUBMIT_EXAM_SUCCESS,
   GRADE_SUBMISSION_REQUEST,
   GRADE_SUBMISSION_SUCCESS,
+  FETCH_GRADES_REQUEST,
+  FETCH_GRADES_SUCCESS,
 } from "./actionNames";
 import axios from "axios";
 
@@ -304,6 +306,36 @@ export const gradeSubmission = (submissionID) => {
       .then((res) => {
         console.log(res.data);
         dispatch(gradeSubmissionSuccess());
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
+const fetchGradesRequest = () => {
+  return {
+    type: FETCH_GRADES_REQUEST,
+  };
+};
+
+const fetchGradesSuccess = (data) => {
+  return {
+    type: FETCH_GRADES_SUCCESS,
+    payload: data,
+  };
+};
+
+export const fetchGrades = (submissionID) => {
+  axios.defaults.headers.common["Authorization"] = localStorage.tokenID;
+  console.log(submissionID);
+  return (dispatch) => {
+    dispatch(fetchGradesRequest());
+    axios
+      .get(`/getgrades/${submissionID}`)
+      .then((res) => {
+        console.log(res.data);
+        dispatch(fetchGradesSuccess(res.data));
       })
       .catch((err) => {
         console.log(err);

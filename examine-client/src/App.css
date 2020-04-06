@@ -183,3 +183,16 @@ code {
   border-color: whitesmoke; */
   padding: 5px;
 }
+
+.options-form-group-correct-answer {
+  margin: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: green;
+  padding: 5px;
+}
+
+.question-grade-card-heading {
+  display: flex;
+  justify-content: space-between;
+}

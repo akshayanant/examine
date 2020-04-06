@@ -23,6 +23,7 @@ const {
   allExams,
   pastExams,
   gradeSubmission,
+  getGrades,
 } = require("./handlers/student");
 
 // // Create and Deploy Your First Cloud Functions
@@ -54,6 +55,7 @@ app.post("/signout", signout);
 app.get("/availableexams", fbAuth, availableexams);
 app.get("/allexams", fbAuth, allExams);
 app.get("/pastexams", fbAuth, pastExams);
+app.get("/getgrades/:submissionID", fbAuth, getGrades);
 
 app.post("/startexam", fbAuth, startexam);
 app.post("/submitexam", fbAuth, submitexam);

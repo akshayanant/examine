@@ -100,7 +100,7 @@ exports.gradeSubmission = (req, res) => {
     .get()
     .then((doc) => {
       const submission = doc.data();
-      console.log(submissionID);
+      const answers = submission.answers;
       db.doc(`/all_exams/${submission.examID.examID}`)
         .get()
         .then((doc) => {
@@ -108,20 +108,25 @@ exports.gradeSubmission = (req, res) => {
           const negative = exam.negative;
           let points = 0.0;
           let grading = [];
-          const size = submission.answers.length;
+          const size = exam.questions.length;
           let i = 1;
-          submission.answers.forEach((answer) => {
-            const questionID = answer.questionID;
-            const userSelection = answer.selection;
+          exam.questions.forEach((questionID) => {
+            const match = answers.filter(
+              (answer) => answer.questionID == questionID
+            );
+            let userSelection = -1;
+            if (match.length > 0) {
+              userSelection = match[0].selection;
+            }
             db.doc(`/questions/${questionID}`)
               .get()
               .then((doc) => {
                 const question = doc.data();
                 const correctAnswer = question.answer;
                 let point = 0.0;
-                if (userSelection === correctAnswer) {
+                if (userSelection == correctAnswer) {
                   point = question.point;
-                } else {
+                } else if (userSelection != -1) {
                   point = negative;
                 }
                 grading.push({
@@ -136,6 +141,7 @@ exports.gradeSubmission = (req, res) => {
                     submissionID: submissionID,
                     grading: grading,
                     points: points,
+                    examName: exam.examName,
                   };
                   db.collection("grades")
                     .add(result)
@@ -144,7 +150,7 @@ exports.gradeSubmission = (req, res) => {
                         .doc(submissionID)
                         .update({ resultID: data.id })
                         .then(() => {
-                          res.json({ message: "graded successfully!" });
+                          return res.json({ message: "graded successfully!" });
                         });
                     });
                 }
@@ -152,5 +158,19 @@ exports.gradeSubmission = (req, res) => {
               });
           });
         });
+    });
+};
+
+exports.getGrades = (req, res) => {
+  const submissionID = req.params.submissionID;
+  console.log(submissionID);
+  db.collection("grades")
+    .where("submissionID", "==", submissionID)
+    .get()
+    .then((data) => {
+      return res.json(data.docs[0].data());
+    })
+    .catch((err) => {
+      console.log(err);
     });
 };
