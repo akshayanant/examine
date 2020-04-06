@@ -125,16 +125,19 @@ exports.gradeSubmission = (req, res) => {
                 const correctAnswer = question.answer;
                 let point = 0.0;
                 if (userSelection == correctAnswer) {
-                  point = question.point;
+                  //point = question.point;
+                  point = 1;
                 } else if (userSelection != -1) {
                   point = negative;
                 }
-                grading.push({
+                const check = {
                   questionID: questionID,
                   correctAnswer: correctAnswer,
                   userSelection: userSelection,
                   point: point,
-                });
+                };
+                console.log(check);
+                grading.push(check);
                 points += point;
                 if (i == size) {
                   const result = {
@@ -143,6 +146,7 @@ exports.gradeSubmission = (req, res) => {
                     points: points,
                     examName: exam.examName,
                   };
+                  console.log(result);
                   db.collection("grades")
                     .add(result)
                     .then((data) => {

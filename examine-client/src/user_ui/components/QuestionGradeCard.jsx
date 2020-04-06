@@ -128,7 +128,7 @@ class QuestionGradeCard extends Component {
                 {this.state.question.option1}
               </Label>
             </FormGroup>
-            <FormGroup className={classNames[2]} check disabled>
+            <FormGroup className={classNames[1]} check disabled>
               <Label check>
                 <Input type="radio" name="1" checked={selection[1]} />{" "}
                 {this.state.question.option2}
@@ -163,7 +163,7 @@ class QuestionGradeCard extends Component {
             {this.state.question.question}
             <p></p>
             <div>{conclusionsMarkUp}</div>
-            {this.state.question.questionFooter}
+            {this.state.question.footer}
             {optionsMarkUp}
           </CardTitle>
           {resultMarkUp}

@@ -126,12 +126,14 @@ code {
   padding: 20px;
   margin-left: 20px;
   min-width: 60%;
+  max-width: 60%;
 }
 
 .main-content-container {
   padding: 20px;
   margin-left: 20px;
   min-width: 60%;
+  max-width: 60%;
 }
 
 .exams-card-container {

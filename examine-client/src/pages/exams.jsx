@@ -7,14 +7,14 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Input
+  Input,
 } from "reactstrap";
 
 import Exam from "./../components/exam";
 import {
   createExamModal,
   cancelCreateExamModal,
-  submitCreateExamModal
+  submitCreateExamModal,
 } from "../redux/admin/actions/actions";
 
 class exams extends Component {
@@ -23,7 +23,7 @@ class exams extends Component {
     this.state = {
       exams: undefined,
       active: undefined,
-      newExamName: ""
+      newExamName: "",
     };
     this.handleExamNameChange = this.handleExamNameChange.bind(this);
     this.handleCreateExam = this.handleCreateExam.bind(this);
@@ -32,19 +32,19 @@ class exams extends Component {
   }
 
   componentDidMount() {
-    axios.get("/exams").then(res => {
+    axios.get("/exams").then((res) => {
       this.setState({
-        exams: res.data
+        exams: res.data,
       });
     });
-    axios.get("/activeexams").then(res => {
+    axios.get("/activeexams").then((res) => {
       this.setState({
-        active: res.data
+        active: res.data,
       });
     });
   }
 
-  handleExamNameChange = event => {
+  handleExamNameChange = (event) => {
     this.setState({ newExamName: event.target.value });
   };
 
@@ -55,8 +55,8 @@ class exams extends Component {
   handleCreateExamSubmit = () => {
     axios
       .post("/createexam", { examName: this.state.newExamName })
-      .then(res => {})
-      .catch(err => {});
+      .then((res) => {})
+      .catch((err) => {});
     this.props.submitCreateExam();
   };
 
@@ -66,7 +66,7 @@ class exams extends Component {
 
   render() {
     let examsMarkup = this.state.exams ? (
-      this.state.exams.map(exam => (
+      this.state.exams.map((exam) => (
         <Exam
           key={exam.examID}
           examID={exam.examID}
@@ -78,7 +78,7 @@ class exams extends Component {
       <p>Loading ... </p>
     );
     let activeExamsMarkUp = this.state.active ? (
-      this.state.active.map(exam => (
+      this.state.active.map((exam) => (
         <Exam
           key={exam.examID}
           activeID={exam.examID}
@@ -120,27 +120,31 @@ class exams extends Component {
   }
 }
 
-const handleLaunchExam = examID => {
+const handleLaunchExam = (examID) => {
+  const exam = {
+    examID: examID,
+    duration: 15,
+  };
   axios
-    .post("/launchexam", { examID })
-    .then(res => {})
-    .catch(err => {});
+    .post("/launchexam", exam)
+    .then((res) => {})
+    .catch((err) => {});
 };
 
-const handleDisableExam = examID => {
+const handleDisableExam = (examID) => {
   axios
     .post("/disableexam", { examID })
-    .then(res => {})
-    .catch(err => {});
+    .then((res) => {})
+    .catch((err) => {});
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    createExamModal: state.admin.createExamModal
+    createExamModal: state.admin.createExamModal,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     createExam: () => {
       dispatch(createExamModal());
@@ -150,7 +154,7 @@ const mapDispatchToProps = dispatch => {
     },
     submitCreateExam: () => {
       dispatch(submitCreateExamModal());
-    }
+    },
   };
 };
 

@@ -6,19 +6,19 @@ import { Link } from "react-router-dom";
 import Question from "./../components/question";
 class questions extends Component {
   state = {
-    questions: []
+    questions: [],
   };
 
   componentDidMount() {
-    axios.get("/questions").then(res => {
+    axios.get("/questions").then((res) => {
       this.setState({
-        questions: res.data
+        questions: res.data,
       });
     });
   }
   render() {
     let questionsMarkup = this.state.questions ? (
-      this.state.questions.map(question => (
+      this.state.questions.map((question) => (
         <Question key={question.id} question={question.question} />
       ))
     ) : (

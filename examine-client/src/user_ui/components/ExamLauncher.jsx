@@ -77,20 +77,24 @@ class ExamLauncher extends Component {
     const pageMarkUp = this.props.launchingExam ? (
       <LoadingSpinner />
     ) : (
-      <Card className="exam-launcher-card">
-        <CardHeader className="exam-launcher-card" color="primary">
-          <div className="exam-heading">
-            <h4>{this.props.attemptDetails.exam.examName}</h4>
-            <div>
-              <h6>Exam Duration : {this.props.attemptDetails.exam.duration}</h6>
-              <h6>Total points : {this.props.attemptDetails.exam.points}</h6>
+      <div className="main-content-container">
+        <Card className="exam-launcher-card">
+          <CardHeader className="exam-launcher-card" color="primary">
+            <div className="exam-heading">
+              <h4>{this.props.attemptDetails.exam.examName}</h4>
+              <div>
+                <h6>
+                  Exam Duration : {this.props.attemptDetails.exam.duration}
+                </h6>
+                <h6>Total points : {this.props.attemptDetails.exam.points}</h6>
+              </div>
             </div>
-          </div>
-        </CardHeader>
+          </CardHeader>
 
-        <CardBody>{questionsMarkUP}</CardBody>
-        <Button onClick={this.handleSubmitExam}>Submit</Button>
-      </Card>
+          <CardBody>{questionsMarkUP}</CardBody>
+          <Button onClick={this.handleSubmitExam}>Submit</Button>
+        </Card>
+      </div>
     );
     return (
       <div>

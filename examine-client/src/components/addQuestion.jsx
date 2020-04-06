@@ -16,8 +16,9 @@ class AddQuestion extends Component {
       option2: "",
       option3: "",
       option4: "",
+      footer: "",
       answer: 0,
-      grade: 0.0
+      point: 0.0,
     };
     this.handleQuestionChange = this.handleQuestionChange.bind(this);
     this.handleConcl1Change = this.handleConcl1Change.bind(this);
@@ -27,44 +28,49 @@ class AddQuestion extends Component {
     this.handleOption2Change = this.handleOption2Change.bind(this);
     this.handleOption3Change = this.handleOption3Change.bind(this);
     this.handleOption4Change = this.handleOption4Change.bind(this);
+    this.handleFooterChange = this.handleFooterChange.bind(this);
     this.handleAnswerChange = this.handleAnswerChange.bind(this);
     this.handleGradeChange = this.handleGradeChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
   }
 
-  handleQuestionChange = event => {
+  handleQuestionChange = (event) => {
     this.setState({ question: event.target.value });
   };
-  handleConcl1Change = event => {
+  handleConcl1Change = (event) => {
     this.setState({ concl1: event.target.value });
   };
-  handleConcl2Change = event => {
+  handleConcl2Change = (event) => {
     this.setState({ concl2: event.target.value });
   };
-  handleConcl3Change = event => {
+  handleConcl3Change = (event) => {
     this.setState({ concl3: event.target.value });
   };
-  handleOption1Change = event => {
+  handleOption1Change = (event) => {
     this.setState({ option1: event.target.value });
   };
-  handleOption2Change = event => {
+  handleOption2Change = (event) => {
     this.setState({ option2: event.target.value });
   };
-  handleOption3Change = event => {
+  handleOption3Change = (event) => {
     this.setState({ option3: event.target.value });
   };
-  handleOption4Change = event => {
+  handleOption4Change = (event) => {
     this.setState({ option4: event.target.value });
   };
-  handleAnswerChange = event => {
+
+  handleFooterChange = (event) => {
+    this.setState({ footer: event.target.value });
+  };
+  handleAnswerChange = (event) => {
     this.setState({ answer: event.target.value });
   };
-  handleGradeChange = event => {
-    this.setState({ grade: event.target.value });
+  handleGradeChange = (event) => {
+    this.setState({ point: event.target.value });
   };
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     axios
       .post("/addquestion", this.state)
       .then(() => {
@@ -77,14 +83,15 @@ class AddQuestion extends Component {
           option2: "",
           option3: "",
           option4: "",
+          footer: "",
           answer: 0,
-          grade: 0.0
+          point: 0.0,
         });
       })
-      .catch(err => {});
+      .catch((err) => {});
   };
 
-  handleCancel = event => {
+  handleCancel = (event) => {
     this.setState({
       question: "",
       concl1: "",
@@ -94,8 +101,9 @@ class AddQuestion extends Component {
       option2: "",
       option3: "",
       option4: "",
+      footer: "",
       answer: 0,
-      grade: 0.0
+      grade: 0.0,
     });
   };
 
@@ -107,7 +115,7 @@ class AddQuestion extends Component {
           <Input
             type="textarea"
             onChange={this.handleQuestionChange}
-            rows="4"
+            rows="10"
             value={this.state.question}
           />
         </FormGroup>
@@ -167,6 +175,15 @@ class AddQuestion extends Component {
             onChange={this.handleOption4Change}
           />
         </FormGroup>
+
+        <FormGroup className="add-question-form">
+          <Label>Footer</Label>
+          <Input
+            type="textarea"
+            value={this.state.footer}
+            onChange={this.handleFooterChange}
+          />
+        </FormGroup>
         <FormGroup className="add-question-form">
           <Label>Answer</Label>
           <Input
@@ -176,10 +193,10 @@ class AddQuestion extends Component {
           />
         </FormGroup>
         <FormGroup className="add-question-form">
-          <Label>Grade</Label>
+          <Label>Point</Label>
           <Input
             type="number"
-            value={this.state.grade}
+            value={this.state.point}
             onChange={this.handleGradeChange}
           />
         </FormGroup>

@@ -8,22 +8,27 @@ exports.createExam = (req, res) => {
     examName: req.body.examName,
     attempts: 1,
     duration: 15,
-    points: 0
+    points: 0,
   };
   db.collection("all_exams")
     .add(newExam)
-    .then(data => {
+    .then((data) => {
       return res.json({
-        message: `Exam ${data.id} created successfully!`
+        message: `Exam ${data.id} created successfully!`,
       });
     })
-    .catch(err => console.error(err));
+    .catch((err) => console.error(err));
 };
 
 exports.launchexam = (req, res) => {
-  examID = req.body.examID;
+  const examID = req.body.examID;
+  const duration = req.body.duration;
+  exam = {
+    examID: examID,
+    duration: duration,
+  };
   db.doc(`/available_exams/${examID}`)
-    .set({ examID })
+    .set(exam)
     .then(() => {
       db.doc(`/past_exams/${examID}`)
         .delete()
@@ -31,7 +36,7 @@ exports.launchexam = (req, res) => {
           res.json({ message: "Exam Launched Successfully" });
         });
     })
-    .catch(err => console.error(err));
+    .catch((err) => console.error(err));
 };
 
 exports.disableexam = (req, res) => {
@@ -45,44 +50,44 @@ exports.disableexam = (req, res) => {
           res.json({ message: "Exam Disbaled Successfully" });
         });
     })
-    .catch(err => console.error(err));
+    .catch((err) => console.error(err));
 };
 
 exports.getExams = (req, res) => {
   db.collection("all_exams")
     .orderBy("createdAt", "desc")
     .get()
-    .then(data => {
+    .then((data) => {
       let exams = [];
-      data.forEach(doc => {
+      data.forEach((doc) => {
         exam = {
           examID: doc.id,
-          exam: doc.data()
+          exam: doc.data(),
         };
         exams.push(exam);
       });
       return res.json(exams);
     })
-    .catch(err => console.error(err));
+    .catch((err) => console.error(err));
 };
 
 exports.activeExams = (req, res) => {
   db.collection("available_exams")
     .get()
-    .then(data => {
+    .then((data) => {
       let active = [];
-      data.forEach(doc => {
+      data.forEach((doc) => {
         active.push(doc.data().examID);
       });
       db.collection("all_exams")
         .get()
-        .then(data => {
+        .then((data) => {
           let exams = [];
-          data.forEach(doc => {
+          data.forEach((doc) => {
             if (active.includes(doc.id)) {
               exam = {
                 examID: doc.id,
-                exam: doc.data()
+                exam: doc.data(),
               };
               exams.push(exam);
             }
@@ -90,7 +95,7 @@ exports.activeExams = (req, res) => {
           return res.json(exams);
         });
     })
-    .catch(err => {
+    .catch((err) => {
       console.error(err);
     });
 };
@@ -100,10 +105,10 @@ exports.getExamDetails = (req, res) => {
   console.log(examID);
   db.doc(`/all_exams/${examID}`)
     .get()
-    .then(data => {
+    .then((data) => {
       res.json({ exam: data.data() });
     })
-    .catch(err => {
+    .catch((err) => {
       res.json({ error: err });
     });
 };
@@ -113,17 +118,17 @@ exports.questions = (req, res) => {
   db.collection("questions")
     .orderBy("createdAt", "desc")
     .get()
-    .then(data => {
+    .then((data) => {
       return data.docs;
     })
-    .then(docs => {
+    .then((docs) => {
       let questions = [];
-      docs.forEach(doc => {
+      docs.forEach((doc) => {
         questions.push(doc.data());
       });
       res.json(questions);
     })
-    .catch(err => {
+    .catch((err) => {
       res.json({ error: err });
     });
 };
@@ -132,17 +137,17 @@ exports.getQuestionIDs = (req, res) => {
   db.collection("questions")
     .orderBy("createdAt", "desc")
     .get()
-    .then(data => {
+    .then((data) => {
       return data.docs;
     })
-    .then(docs => {
+    .then((docs) => {
       let questions = [];
-      docs.forEach(doc => {
+      docs.forEach((doc) => {
         questions.push(doc.id);
       });
       res.json(questions);
     })
-    .catch(err => {
+    .catch((err) => {
       res.json({ error: err });
     });
 };
@@ -159,17 +164,18 @@ exports.addquestion = (req, res) => {
     option2: req.body.option2,
     option3: req.body.option3,
     option4: req.body.option4,
+    footer: req.body.footer,
     answer: req.body.answer,
-    grade: req.body.grade
+    grade: req.body.grade,
   };
   db.collection("questions")
     .add(newQuestion)
-    .then(data => {
+    .then((data) => {
       return res.json({
-        message: `Question ${data.id} created successfully!`
+        message: `Question ${data.id} created successfully!`,
       });
     })
-    .catch(err => console.error(err));
+    .catch((err) => console.error(err));
 };
 
 exports.appendquestion = (req, res) => {
@@ -181,7 +187,7 @@ exports.appendquestion = (req, res) => {
     .then(() => {
       res.status(201).json({ message: "question added successfully" });
     })
-    .catch(err => {
+    .catch((err) => {
       res.json({ error: err });
     });
 };
@@ -195,7 +201,7 @@ exports.removequestion = (req, res) => {
     .then(() => {
       res.status(201).json({ message: "question Removed successfully" });
     })
-    .catch(err => {
+    .catch((err) => {
       res.json({ error: err });
     });
 };
@@ -205,10 +211,10 @@ exports.getQuestionDetails = (req, res) => {
   console.log(questionID);
   db.doc(`/questions/${questionID}`)
     .get()
-    .then(data => {
+    .then((data) => {
       res.json({ question: data.data() });
     })
-    .catch(err => {
+    .catch((err) => {
       res.json({ error: err });
     });
 };

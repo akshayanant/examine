@@ -28,18 +28,20 @@ class ViewResults extends Component {
       );
     });
     return (
-      <Card className="exam-launcher-card">
-        <CardHeader className="exam-launcher-card">
-          <div className="exam-heading">
-            <h4>{this.props.grade.examName}</h4>
-            <div>
-              <h4>Score : {this.props.grade.points.toFixed(2)}</h4>
+      <div className="main-content-container">
+        <Card className="exam-launcher-card">
+          <CardHeader className="exam-launcher-card">
+            <div className="exam-heading">
+              <h4>{this.props.grade.examName}</h4>
+              <div>
+                <h4>Score : {this.props.grade.points.toFixed(2)}</h4>
+              </div>
             </div>
-          </div>
-        </CardHeader>
+          </CardHeader>
 
-        <CardBody>{questionsMarkUp}</CardBody>
-      </Card>
+          <CardBody>{questionsMarkUp}</CardBody>
+        </Card>
+      </div>
     );
   }
 }
