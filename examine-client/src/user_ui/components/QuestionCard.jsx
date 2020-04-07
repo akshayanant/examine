@@ -28,7 +28,7 @@ class QuestionCard extends Component {
         option2: "",
         option3: "",
         option4: "",
-        questionFooter: "",
+        footer: "",
         points: 0,
       },
       selection: [false, false, false, false],
@@ -141,7 +141,7 @@ class QuestionCard extends Component {
             {this.state.question.question}
             <p></p>
             <div>{conclusionsMarkUp}</div>
-            {this.state.question.questionFooter}
+            {this.state.question.footer}
             {optionsMarkUp}
           </CardTitle>
           <Button color="success" size="sm" onClick={this.handleClearSelection}>

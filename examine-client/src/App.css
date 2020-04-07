@@ -88,8 +88,7 @@ code {
 }
 
 .user-nav-links {
-  margin: 10px 10px 10px 10px;
-  padding: 20px;
+  margin: 0px 10px 10px 10px;
   min-width: 20%;
 }
 
@@ -98,6 +97,7 @@ code {
   margin: 10px 30px 30px 30px;
   padding: 20px;
   justify-content: space-between;
+  align-items: baseline;
 }
 
 .user-page-left {
@@ -130,10 +130,10 @@ code {
 }
 
 .main-content-container {
-  padding: 20px;
   margin-left: 20px;
   min-width: 60%;
   max-width: 60%;
+  margin-right: 20px;
 }
 
 .exams-card-container {
@@ -142,7 +142,6 @@ code {
   border-width: 2px;
   border-color: whitesmoke;
   min-width: 100%;
-  margin: 10px;
   align-items: center;
 }
 
@@ -197,4 +196,9 @@ code {
 .question-grade-card-heading {
   display: flex;
   justify-content: space-between;
+}
+
+.timer-body {
+  display: flex;
+  justify-content: space-evenly;
 }

@@ -14,6 +14,7 @@ import ExamLauncherPage from "./../pages/examLauncherPage";
 import { auth } from "../util/auth";
 import FinishExamPage from "../pages/finishExamPage";
 import ViewResultsPage from "./../pages/viewResultsPage";
+import RightPane from "./RightPane";
 
 class UserContainer extends Component {
   render() {
@@ -52,6 +53,7 @@ class UserContainer extends Component {
               component={ViewResultsPage}
             />
           </Switch>
+          <RightPane />
         </div>
       </Router>
     );

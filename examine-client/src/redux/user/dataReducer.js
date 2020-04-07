@@ -50,6 +50,8 @@ const init = {
     points: 0,
     examName: "",
   },
+  timerRunning: false,
+  timerMinutes: 0,
 };
 
 export const dataReducer = (state = init, action) => {
@@ -100,6 +102,7 @@ export const dataReducer = (state = init, action) => {
         ...state,
         loading: false,
         authorized: false,
+        timerRunning: false,
       };
 
     case FETCH_AVAILABLE_EXAMS_REQUEST:
@@ -143,6 +146,7 @@ export const dataReducer = (state = init, action) => {
         ...state,
         attemptDetails: { ...action.payload },
         startingExam: false,
+        timerRunning: true,
       };
 
     case FETCH_QUESTION_REQUEST:
@@ -168,6 +172,7 @@ export const dataReducer = (state = init, action) => {
         ...state,
         submittingExam: false,
         submitted: true,
+        timerRunning: false,
       };
 
     case GRADE_SUBMISSION_REQUEST:

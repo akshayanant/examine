@@ -15,11 +15,7 @@ class ExamLauncherPage extends Component {
     this.setState({ examID });
   }
   render() {
-    return (
-      <div className="main-content-container">
-        <ExamLauncher examID={this.props.match.params.examID} />
-      </div>
-    );
+    return <ExamLauncher examID={this.props.match.params.examID} />;
   }
 }
 
