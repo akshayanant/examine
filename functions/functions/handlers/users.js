@@ -1,7 +1,9 @@
 const { firebase, db } = require("./../config/admin");
 
 exports.signup = (request, response) => {
-  let tokenID, userID;
+  let tokenID = "";
+  let userID = "";
+  let availableExams = [];
   console.log(request.body);
   const newUser = request.body;
   if (newUser.firstName.length < 3) {
@@ -32,13 +34,22 @@ exports.signup = (request, response) => {
     })
     .then((token) => {
       tokenID = token;
+      return db.collection(`/available_exams`).get();
+    })
+    .then((data) => {
+      data.docs.forEach((doc) => {
+        availableExams.push(doc.data().examID);
+      });
+      return 1;
+    })
+    .then(() => {
       const createdUser = {
         firstName: newUser.firstName,
         lastName: newUser.lastName,
         email: newUser.email,
         uniqueID: userID,
         submissions: [],
-        availableExams: [],
+        availableExams: availableExams,
         pastExams: [],
       };
       return db.doc(`/users/${createdUser.uniqueID}`).set(createdUser);

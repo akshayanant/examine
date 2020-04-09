@@ -14,9 +14,7 @@ class UserNavLinks extends Component {
         <h6>Features</h6>
         <Nav tabs vertical>
           <NavItem>
-            <NavLink active href="/announcements">
-              Announcements
-            </NavLink>
+            <NavLink disabled>Announcements</NavLink>
           </NavItem>
           <NavItem>
             <NavLink active href="/exams">
@@ -42,10 +40,10 @@ class UserNavLinks extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     authorized: state.user.authorized,
-    loading: state.user.loading
+    loading: state.user.loading,
   };
 };
 

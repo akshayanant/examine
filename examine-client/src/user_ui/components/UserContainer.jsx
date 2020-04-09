@@ -18,7 +18,8 @@ import RightPane from "./RightPane";
 
 class UserContainer extends Component {
   render() {
-    const navLinksMarkUp = auth(localStorage.tokenID) ? (
+    const tokenID = localStorage.tokenID;
+    const navLinksMarkUp = auth(tokenID) ? (
       <div className="user-nav-links">
         <UserNavLinks />
       </div>
@@ -34,7 +35,7 @@ class UserContainer extends Component {
           {navLinksMarkUp}
           <Switch>
             <AuthRoute exact path="/login" component={Login} />
-            <Route exact path="/" component={examineUserEntry} />
+            <Route exact path="/" component={ExamsPage} />
             <Route exact path="/announcements" component={AnnouncementsPage} />
             <Route exact path="/exams" component={ExamsPage} />
             <Route
