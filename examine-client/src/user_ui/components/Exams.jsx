@@ -16,11 +16,10 @@ class Exams extends Component {
     const availableExams = this.props.availableExams;
     const loadingPastExams = this.props.loadingPastExams;
     const loadingAvailableExams = this.props.loadingAvailableExams;
-
     const availableExamsMarkUp = loadingAvailableExams ? (
       <LoadingSpinner />
     ) : (
-      availableExams.map(exam => {
+      availableExams.map((exam) => {
         return (
           <ExamCard
             exam={exam.exam}
@@ -34,13 +33,14 @@ class Exams extends Component {
     const pastExamsMarkUp = loadingPastExams ? (
       <LoadingSpinner />
     ) : (
-      pastExams.map(exam => {
+      pastExams.map((exam) => {
         return (
           <ExamCard
             exam={exam.exam}
             key={exam.examID}
             id={exam.examID}
             available={false}
+            submissionID={exam.submissionID}
           />
         );
       })
@@ -61,19 +61,19 @@ class Exams extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     pastExams: state.user.pastExams,
     availableExams: state.user.availableExams,
     loadingPastExams: state.user.loadingPastExams,
-    loadingAvailableExams: state.user.loadingAvailableExams
+    loadingAvailableExams: state.user.loadingAvailableExams,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     fetchPastExams: () => dispatch(fetchPastExams()),
-    fetchAvailableExams: () => dispatch(fetchAvailableExams())
+    fetchAvailableExams: () => dispatch(fetchAvailableExams()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Exams);

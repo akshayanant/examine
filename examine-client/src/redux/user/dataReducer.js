@@ -112,6 +112,12 @@ export const dataReducer = (state = init, action) => {
       };
 
     case FETCH_AVAILABLE_EXAMS_SUCCESS:
+      if (action.payload.length == 0) {
+        return {
+          ...state,
+          loadingAvailableExams: false,
+        };
+      }
       let availableExams = [...state.availableExams];
       availableExams.push(action.payload);
       return {
@@ -127,6 +133,12 @@ export const dataReducer = (state = init, action) => {
       };
 
     case FETCH_PAST_EXAMS_SUCCESS:
+      if (action.payload.length == 0) {
+        return {
+          ...state,
+          loadingPastExams: false,
+        };
+      }
       let pastExams = [...state.pastExams];
       pastExams.push(action.payload);
       return {

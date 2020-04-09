@@ -133,11 +133,14 @@ export const fetchAvailableExams = () => {
       .get("/availableexams")
       .then((res) => {
         const availableExams = res.data;
+        if (availableExams.length == 0) {
+          dispatch(fetchAvailableExamsSuccess(availableExams));
+        }
         availableExams.forEach((exam) => {
-          axios.get(`/getexamdetails/${exam.examID}`).then((res) => {
+          axios.get(`/getexamdetails/${exam}`).then((res) => {
             dispatch(
               fetchAvailableExamsSuccess({
-                examID: exam.examID,
+                examID: exam,
                 exam: res.data.exam,
               })
             );
@@ -169,11 +172,17 @@ export const fetchPastExams = () => {
       .get("/pastexams")
       .then((res) => {
         const pastExams = res.data;
+        console.log(pastExams);
+        if (pastExams.length == 0) {
+          dispatch(fetchPastExamsSuccess(pastExams));
+        }
         pastExams.forEach((exam) => {
           axios.get(`/getexamdetails/${exam.examID}`).then((res) => {
+            console.log(res.data.exam);
             dispatch(
               fetchPastExamsSuccess({
                 examID: exam.examID,
+                submissionID: exam.submissionID,
                 exam: res.data.exam,
               })
             );

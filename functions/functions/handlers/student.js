@@ -1,17 +1,14 @@
 const { db, admin } = require("./../config/admin");
 
 exports.availableexams = (req, res) => {
-  db.collection("available_exams")
+  db.doc(`/users/${req.user.uid}`)
     .get()
-    .then((data) => {
-      let exams = [];
-      data.forEach((doc) => {
-        exams.push(doc.data());
-      });
-      return res.json(exams);
+    .then((doc) => {
+      const userData = doc.data();
+      return res.json(userData.availableExams);
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
     });
 };
 
@@ -34,41 +31,41 @@ exports.allExams = (req, res) => {
 };
 
 exports.pastExams = (req, res) => {
-  db.collection("past_exams")
+  db.doc(`/users/${req.user.uid}`)
     .get()
-    .then((data) => {
-      let exams = [];
-      data.forEach((doc) => {
-        exams.push(doc.data());
-      });
-      return res.json(exams);
+    .then((doc) => {
+      const userData = doc.data();
+      return res.json(userData.pastExams);
     })
     .catch((err) => {
-      console.error(err);
+      console.log(err);
     });
 };
 
 exports.startexam = (req, res) => {
   const examID = req.body;
-  db.collection("available_exams")
-    .where("examID", "==", examID)
-    .limit(1)
-    .get()
-    .then(() => {
-      const submission = {
-        examID: examID,
-        uid: req.user.uid,
-        answers: [],
-        submitted: false,
-      };
-      db.collection("submissions")
-        .add(submission)
-        .then((data) => {
-          const subID = data.id;
-          let usersRef = db.collection("users").doc(submission.uid);
-          usersRef
+  const submission = {
+    examID: examID,
+    uid: req.user.uid,
+    answers: [],
+    submitted: false,
+  };
+  db.collection("submissions")
+    .add(submission)
+    .then((data) => {
+      const subID = data.id;
+      let usersRef = db.collection("users").doc(submission.uid);
+      usersRef
+        .update({
+          submissions: admin.firestore.FieldValue.arrayUnion(subID),
+        })
+        .then(() => {
+          console.log(examID);
+          db.doc(`/users/${req.user.uid}`)
             .update({
-              submissions: admin.firestore.FieldValue.arrayUnion(subID),
+              availableExams: admin.firestore.FieldValue.arrayRemove(
+                examID.examID
+              ),
             })
             .then(() => {
               return res.json({ submissionID: subID });
@@ -154,7 +151,18 @@ exports.gradeSubmission = (req, res) => {
                         .doc(submissionID)
                         .update({ resultID: data.id })
                         .then(() => {
-                          return res.json({ message: "graded successfully!" });
+                          db.doc(`/users/${req.user.uid}`)
+                            .update({
+                              pastExams: admin.firestore.FieldValue.arrayUnion({
+                                examID: submission.examID.examID,
+                                submissionID: submissionID,
+                              }),
+                            })
+                            .then(() => {
+                              return res.json({
+                                message: "graded successfully!",
+                              });
+                            });
                         });
                     });
                 }

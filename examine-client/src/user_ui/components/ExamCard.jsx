@@ -8,7 +8,7 @@ class ExamCard extends Component {
     super(props);
     this.state = {
       modalVisible: false,
-      examID: ""
+      examID: "",
     };
     this.handleContinue = this.handleContinue.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
@@ -44,7 +44,9 @@ class ExamCard extends Component {
         />
       </div>
     ) : (
-      <Button>View Results</Button>
+      <Button href={`/viewresults/${this.props.submissionID}`}>
+        View Results
+      </Button>
     );
     return (
       <div className="exam-card">

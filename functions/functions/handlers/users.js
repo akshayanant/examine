@@ -6,12 +6,12 @@ exports.signup = (request, response) => {
   const newUser = request.body;
   if (newUser.firstName.length < 3) {
     return response.status(400).json({
-      error: "First Name must be atleast three characters"
+      error: "First Name must be atleast three characters",
     });
   }
   if (newUser.lastName.length < 3) {
     return response.status(400).json({
-      error: "Last Name must be atleast three characters"
+      error: "Last Name must be atleast three characters",
     });
   }
   if (newUser.email.length < 3) {
@@ -26,25 +26,27 @@ exports.signup = (request, response) => {
   firebase
     .auth()
     .createUserWithEmailAndPassword(newUser.email, newUser.password)
-    .then(data => {
+    .then((data) => {
       userID = data.user.uid;
       return data.user.getIdToken();
     })
-    .then(token => {
+    .then((token) => {
       tokenID = token;
       const createdUser = {
         firstName: newUser.firstName,
         lastName: newUser.lastName,
         email: newUser.email,
         uniqueID: userID,
-        submissions: []
+        submissions: [],
+        availableExams: [],
+        pastExams: [],
       };
       return db.doc(`/users/${createdUser.uniqueID}`).set(createdUser);
     })
     .then(() => {
       return response.json({ tokenID: `${tokenID}` });
     })
-    .catch(err => {
+    .catch((err) => {
       return response.status(500).json({ error: err.message });
     });
 };
@@ -55,13 +57,13 @@ exports.signin = (request, response) => {
   firebase
     .auth()
     .signInWithEmailAndPassword(user.email, user.password)
-    .then(data => {
+    .then((data) => {
       return data.user.getIdToken();
     })
-    .then(token => {
+    .then((token) => {
       return response.json({ tokenID: `${token}` });
     })
-    .catch(err => {
+    .catch((err) => {
       return response.status(500).json({ error: err.message });
     });
 };
