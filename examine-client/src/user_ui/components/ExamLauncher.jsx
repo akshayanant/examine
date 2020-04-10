@@ -50,6 +50,7 @@ class ExamLauncher extends Component {
     const valid = auth(localStorage.tokenID);
     const authorized = this.props.authorized;
     const loading = this.props.loading;
+    const submittingExam = this.props.submittingExam;
     if (!valid) {
       return <Redirect to="/" />;
     }
@@ -87,7 +88,9 @@ class ExamLauncher extends Component {
         </CardHeader>
 
         <CardBody>{questionsMarkUP}</CardBody>
-        <Button onClick={this.handleSubmitExam}>Submit</Button>
+        <Button onClick={this.handleSubmitExam} disabled={submittingExam}>
+          Submit
+        </Button>
       </Card>
     );
     return (

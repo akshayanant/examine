@@ -10,7 +10,9 @@ class UserNavbar extends Component {
     const authorized = this.props.authorized;
     const loading = this.props.loading;
     const buttonMarkup = valid ? (
-      <Button onClick={this.props.logout}>Logout</Button>
+      <Button onClick={this.props.logout} disabled={loading}>
+        Logout
+      </Button>
     ) : (
       ""
     );

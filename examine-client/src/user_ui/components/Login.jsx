@@ -71,6 +71,7 @@ class Login extends Component {
   };
 
   render() {
+    const loading = this.props.loading;
     const authErrorMarkup = this.props.authError ? (
       <p className="auth-error">Invalid Credentials . . . Please try agian </p>
     ) : (
@@ -102,6 +103,7 @@ class Login extends Component {
         <Button
           className="btn-lg btn-dark btn-block"
           onClick={this.handleLogin}
+          disabled={loading}
         >
           Login
         </Button>
@@ -151,7 +153,11 @@ class Login extends Component {
             onChange={this.handleChangeConfirmPassword}
           />
         </FormGroup>
-        <Button className="btn btn-success" onClick={this.handleNewAcc}>
+        <Button
+          className="btn btn-success"
+          disabled={loading}
+          onClick={this.handleNewAcc}
+        >
           Sign up
         </Button>
       </Form>
@@ -162,6 +168,7 @@ class Login extends Component {
 const mapStateToProps = (state) => {
   return {
     authError: state.user.authError,
+    loading: state.user.loading,
   };
 };
 
