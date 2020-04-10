@@ -20,6 +20,8 @@ import {
   GRADE_SUBMISSION_SUCCESS,
   FETCH_GRADES_REQUEST,
   FETCH_GRADES_SUCCESS,
+  START_VIEWING_GRADES,
+  END_VIEWING_GRADES,
 } from "./actionNames";
 
 const init = {
@@ -49,9 +51,18 @@ const init = {
     grading: [],
     points: 0,
     examName: "",
+    gradeCard: {
+      totalQuestions: 0,
+      attempted: 0,
+      correct: 0,
+      wrong: 0,
+      points: 0,
+      hitRate: 0,
+    },
   },
   timerRunning: false,
   timerMinutes: 0,
+  viewingGrade: false,
 };
 
 export const dataReducer = (state = init, action) => {
@@ -210,6 +221,18 @@ export const dataReducer = (state = init, action) => {
         ...state,
         grade: { ...action.payload },
         fetchingGrades: false,
+      };
+
+    case START_VIEWING_GRADES:
+      return {
+        ...state,
+        viewingGrade: true,
+      };
+
+    case END_VIEWING_GRADES:
+      return {
+        ...state,
+        viewingGrade: false,
       };
     default:
       return {

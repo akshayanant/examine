@@ -20,6 +20,8 @@ import {
   GRADE_SUBMISSION_SUCCESS,
   FETCH_GRADES_REQUEST,
   FETCH_GRADES_SUCCESS,
+  START_VIEWING_GRADES,
+  END_VIEWING_GRADES,
 } from "./actionNames";
 import axios from "axios";
 
@@ -172,13 +174,11 @@ export const fetchPastExams = () => {
       .get("/pastexams")
       .then((res) => {
         const pastExams = res.data;
-        console.log(pastExams);
         if (pastExams.length == 0) {
           dispatch(fetchPastExamsSuccess(pastExams));
         }
         pastExams.forEach((exam) => {
           axios.get(`/getexamdetails/${exam.examID}`).then((res) => {
-            console.log(res.data.exam);
             dispatch(
               fetchPastExamsSuccess({
                 examID: exam.examID,
@@ -207,14 +207,12 @@ const startExamSuccess = (data) => {
 };
 
 const fetchExamDetails = (examID, submissionID) => {
-  console.log(examID);
   return (dispatch) => {
     axios.get(`/getexamdetails/${examID}`).then((res) => {
       const attemptDetails = {
         submissionID: submissionID,
         exam: res.data.exam,
       };
-      console.log(attemptDetails);
       dispatch(startExamSuccess(attemptDetails));
     });
   };
@@ -227,13 +225,10 @@ export const startExam = (examID) => {
     axios
       .post("/startexam", { examID })
       .then((res) => {
-        console.log(res.data);
         const submissionID = res.data.submissionID;
         dispatch(fetchExamDetails(examID, submissionID));
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   };
 };
 
@@ -281,12 +276,9 @@ export const submitExam = (submissionID, answers) => {
     axios
       .post("/submitexam", submission)
       .then((res) => {
-        console.log(res.data);
         dispatch(submitExamSuccess());
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   };
 };
 
@@ -306,19 +298,15 @@ export const gradeSubmission = (submissionID) => {
   const submission = {
     submissionID: submissionID,
   };
-  console.log(submission);
   return (dispatch) => {
     dispatch(gradeSubmissionRequest());
     axios.defaults.headers.common["Authorization"] = localStorage.tokenID;
     axios
       .post("/gradesubmission", submission)
       .then((res) => {
-        console.log(res.data);
         dispatch(gradeSubmissionSuccess());
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   };
 };
 
@@ -337,17 +325,25 @@ const fetchGradesSuccess = (data) => {
 
 export const fetchGrades = (submissionID) => {
   axios.defaults.headers.common["Authorization"] = localStorage.tokenID;
-  console.log(submissionID);
   return (dispatch) => {
     dispatch(fetchGradesRequest());
     axios
       .get(`/getgrades/${submissionID}`)
       .then((res) => {
-        console.log(res.data);
         dispatch(fetchGradesSuccess(res.data));
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
+  };
+};
+
+export const startViewingGrades = () => {
+  return {
+    type: START_VIEWING_GRADES,
+  };
+};
+
+export const endViewingGrades = () => {
+  return {
+    type: END_VIEWING_GRADES,
   };
 };

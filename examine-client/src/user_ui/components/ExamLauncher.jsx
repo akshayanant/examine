@@ -24,14 +24,12 @@ class ExamLauncher extends Component {
   }
 
   handleClearSelection = (questionID) => {
-    console.log("handleClearSelection");
     let answers = [...this.state.answers];
     answers = answers.filter((answer) => answer.questionID != questionID);
     this.setState({ answers: answers });
   };
 
   handleSelection = (questionID, option) => {
-    console.log(`handleSelection ${questionID}   ${option}`);
     let answers = [...this.state.answers];
     answers = answers.filter((answer) => answer.questionID != questionID);
     answers.push({

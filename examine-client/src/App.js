@@ -5,6 +5,10 @@ import { store } from "./redux/store";
 
 import Container from "./components/Container";
 import UserContainer from "./user_ui/components/UserContainer";
+import Axios from "axios";
+
+Axios.defaults.baseURL =
+  "https://us-central1-examine-c152f.cloudfunctions.net/api";
 
 function App() {
   return (

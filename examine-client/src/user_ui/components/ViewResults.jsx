@@ -24,6 +24,7 @@ class ViewResults extends Component {
           correctAnswer={question.correctAnswer}
           point={question.point}
           index={index++}
+          key={question.questionID}
         />
       );
     });

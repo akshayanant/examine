@@ -17,12 +17,10 @@ class UserNavLinks extends Component {
             <NavLink disabled>Announcements</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink active href="/exams">
-              Exams
-            </NavLink>
+            <NavLink href="/exams">Exams</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink active href="#">
+            <NavLink disabled href="#">
               Assignments
             </NavLink>
           </NavItem>

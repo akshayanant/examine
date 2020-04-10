@@ -8,7 +8,7 @@ exports.availableexams = (req, res) => {
       return res.json(userData.availableExams);
     })
     .catch((err) => {
-      console.log(err);
+      return res.json({ error: err });
     });
 };
 
@@ -26,7 +26,7 @@ exports.allExams = (req, res) => {
       return res.json(exams);
     })
     .catch((err) => {
-      console.error(err);
+      return res.json({ error: err });
     });
 };
 
@@ -38,7 +38,7 @@ exports.pastExams = (req, res) => {
       return res.json(userData.pastExams);
     })
     .catch((err) => {
-      console.log(err);
+      return res.json({ error: err });
     });
 };
 
@@ -60,7 +60,6 @@ exports.startexam = (req, res) => {
           submissions: admin.firestore.FieldValue.arrayUnion(subID),
         })
         .then(() => {
-          console.log(examID);
           db.doc(`/users/${req.user.uid}`)
             .update({
               availableExams: admin.firestore.FieldValue.arrayRemove(
@@ -105,6 +104,9 @@ exports.gradeSubmission = (req, res) => {
           const negative = exam.negative;
           let points = 0.0;
           let grading = [];
+          let attempted = 0;
+          let correct = 0;
+          let wrong = 0;
           const size = exam.questions.length;
           let i = 1;
           exam.questions.forEach((questionID) => {
@@ -114,6 +116,7 @@ exports.gradeSubmission = (req, res) => {
             let userSelection = -1;
             if (match.length > 0) {
               userSelection = match[0].selection;
+              attempted++;
             }
             db.doc(`/questions/${questionID}`)
               .get()
@@ -124,8 +127,10 @@ exports.gradeSubmission = (req, res) => {
                 if (userSelection == correctAnswer) {
                   //point = question.point;
                   point = 1;
+                  correct++;
                 } else if (userSelection != -1) {
                   point = negative;
+                  wrong++;
                 }
                 const check = {
                   questionID: questionID,
@@ -133,17 +138,25 @@ exports.gradeSubmission = (req, res) => {
                   userSelection: userSelection,
                   point: point,
                 };
-                console.log(check);
                 grading.push(check);
                 points += point;
                 if (i == size) {
+                  const hitRate = (correct / attempted) * 100;
+                  const gradeCard = {
+                    totalQuestions: size,
+                    attempted: attempted,
+                    correct: correct,
+                    wrong: wrong,
+                    points: points,
+                    hitRate: hitRate,
+                  };
                   const result = {
                     submissionID: submissionID,
                     grading: grading,
                     points: points,
                     examName: exam.examName,
+                    gradeCard: gradeCard,
                   };
-                  console.log(result);
                   db.collection("grades")
                     .add(result)
                     .then((data) => {
@@ -170,12 +183,14 @@ exports.gradeSubmission = (req, res) => {
               });
           });
         });
+    })
+    .catch((err) => {
+      return res.json({ error: err });
     });
 };
 
 exports.getGrades = (req, res) => {
   const submissionID = req.params.submissionID;
-  console.log(submissionID);
   db.collection("grades")
     .where("submissionID", "==", submissionID)
     .get()
@@ -183,6 +198,6 @@ exports.getGrades = (req, res) => {
       return res.json(data.docs[0].data());
     })
     .catch((err) => {
-      console.log(err);
+      return res.json({ error: err });
     });
 };

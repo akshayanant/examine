@@ -2,7 +2,6 @@ const { db, admin } = require("./../config/admin");
 
 exports.fbAuth = (req, res, next) => {
   let tokenID;
-  console.log(req.headers.authorization);
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer ")

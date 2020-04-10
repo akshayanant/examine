@@ -4,7 +4,6 @@ exports.signup = (request, response) => {
   let tokenID = "";
   let userID = "";
   let availableExams = [];
-  console.log(request.body);
   const newUser = request.body;
   if (newUser.firstName.length < 3) {
     return response.status(400).json({

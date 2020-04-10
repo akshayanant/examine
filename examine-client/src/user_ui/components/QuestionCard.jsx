@@ -38,7 +38,6 @@ class QuestionCard extends Component {
   }
   componentDidMount() {
     axios.get(`/getquestiondetails/${this.props.questionID}`).then((res) => {
-      console.log(res.data);
       this.setState({ question: res.data.question });
     });
   }

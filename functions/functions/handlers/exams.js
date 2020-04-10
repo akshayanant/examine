@@ -17,7 +17,9 @@ exports.createExam = (req, res) => {
         message: `Exam ${data.id} created successfully!`,
       });
     })
-    .catch((err) => console.error(err));
+    .catch((err) => {
+      return res.json({ error: err });
+    });
 };
 
 exports.launchexam = (req, res) => {
@@ -36,7 +38,9 @@ exports.launchexam = (req, res) => {
           res.json({ message: "Exam Launched Successfully" });
         });
     })
-    .catch((err) => console.error(err));
+    .catch((err) => {
+      return res.json({ error: err });
+    });
 };
 
 exports.disableexam = (req, res) => {
@@ -50,7 +54,9 @@ exports.disableexam = (req, res) => {
           res.json({ message: "Exam Disbaled Successfully" });
         });
     })
-    .catch((err) => console.error(err));
+    .catch((err) => {
+      return res.json({ error: err });
+    });
 };
 
 exports.getExams = (req, res) => {
@@ -68,7 +74,9 @@ exports.getExams = (req, res) => {
       });
       return res.json(exams);
     })
-    .catch((err) => console.error(err));
+    .catch((err) => {
+      return res.json({ error: err });
+    });
 };
 
 exports.activeExams = (req, res) => {
@@ -96,13 +104,12 @@ exports.activeExams = (req, res) => {
         });
     })
     .catch((err) => {
-      console.error(err);
+      return res.json({ error: err });
     });
 };
 
 exports.getExamDetails = (req, res) => {
   const examID = req.params.examID;
-  console.log(examID);
   db.doc(`/all_exams/${examID}`)
     .get()
     .then((data) => {
@@ -153,7 +160,6 @@ exports.getQuestionIDs = (req, res) => {
 };
 
 exports.addquestion = (req, res) => {
-  console.log(req.body);
   const newQuestion = {
     question: req.body.question,
     createdAt: new Date().toISOString(),
@@ -175,7 +181,9 @@ exports.addquestion = (req, res) => {
         message: `Question ${data.id} created successfully!`,
       });
     })
-    .catch((err) => console.error(err));
+    .catch((err) => {
+      return res.json({ error: err });
+    });
 };
 
 exports.appendquestion = (req, res) => {
@@ -208,7 +216,6 @@ exports.removequestion = (req, res) => {
 
 exports.getQuestionDetails = (req, res) => {
   const questionID = req.params.questionID;
-  console.log(questionID);
   db.doc(`/questions/${questionID}`)
     .get()
     .then((data) => {
