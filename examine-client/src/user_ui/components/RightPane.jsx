@@ -16,7 +16,7 @@ class RightPane extends Component {
             correct={this.props.grade.gradeCard.correct}
             wrong={this.props.grade.gradeCard.wrong}
             hitRate={this.props.grade.gradeCard.hitRate}
-            points={this.props.grade.gradeCard.points.toFixed(2)}
+            points={this.props.grade.gradeCard.points}
             fetchingGrades={this.props.fetchingGrades}
           />
         </div>

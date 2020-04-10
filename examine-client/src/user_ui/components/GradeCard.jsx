@@ -33,11 +33,11 @@ class GradeCard extends Component {
           </div>
           <div className="grade-card-item">
             <Badge color="light">Hit Rate </Badge>
-            <Badge> {this.props.hitRate} %</Badge>
+            <Badge> {this.props.hitRate | 0} %</Badge>
           </div>
           <div className="grade-card-item">
             <Badge color="light"> Points </Badge>
-            <Badge> {this.props.points}</Badge>
+            <Badge> {this.props.points.toFixed(2)}</Badge>
           </div>
         </CardBody>
       </Card>
