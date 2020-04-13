@@ -89,7 +89,7 @@ code {
 
 .user-nav-links {
   margin: 0px 10px 10px 10px;
-  min-width: 20%;
+  min-width: 15%;
 }
 
 .user-pages-generic {
@@ -148,6 +148,8 @@ code {
 
 .exam-card {
   min-width: 80%;
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .launch-exam-modal-buttons {
@@ -208,4 +210,8 @@ code {
   display: flex;
   justify-content: space-between;
   margin-top: 5px;
+}
+
+.right-pane {
+  min-width: 20%;
 }

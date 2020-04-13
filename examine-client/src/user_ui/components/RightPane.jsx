@@ -9,7 +9,7 @@ class RightPane extends Component {
     const viewingGrade = this.props.viewingGrade;
     if (viewingGrade) {
       return (
-        <div>
+        <div className="right-pane">
           <GradeCard
             totalQuestions={this.props.grade.gradeCard.totalQuestions}
             attempted={this.props.grade.gradeCard.attempted}

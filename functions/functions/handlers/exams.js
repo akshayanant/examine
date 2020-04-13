@@ -35,7 +35,21 @@ exports.launchexam = (req, res) => {
       db.doc(`/past_exams/${examID}`)
         .delete()
         .then(() => {
-          res.json({ message: "Exam Launched Successfully" });
+          db.collection("users")
+            .get()
+            .then((data) => {
+              return data.docs;
+            })
+            .then((docs) => {
+              docs.forEach((doc) => {
+                db.doc(`/users/${doc.id}`).update({
+                  availableExams: admin.firestore.FieldValue.arrayUnion(examID),
+                });
+              });
+            })
+            .then(() => {
+              res.json({ message: "Exam Launched Successfully" });
+            });
         });
     })
     .catch((err) => {

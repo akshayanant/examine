@@ -18,7 +18,7 @@ class AddQuestion extends Component {
       option4: "",
       footer: "",
       answer: 0,
-      point: 0.0,
+      grade: 0.0,
     };
     this.handleQuestionChange = this.handleQuestionChange.bind(this);
     this.handleConcl1Change = this.handleConcl1Change.bind(this);
@@ -64,10 +64,10 @@ class AddQuestion extends Component {
     this.setState({ footer: event.target.value });
   };
   handleAnswerChange = (event) => {
-    this.setState({ answer: event.target.value });
+    this.setState({ answer: parseInt(event.target.value) });
   };
   handleGradeChange = (event) => {
-    this.setState({ point: event.target.value });
+    this.setState({ grade: parseInt(event.target.value) });
   };
 
   handleSubmit = (event) => {
@@ -85,7 +85,7 @@ class AddQuestion extends Component {
           option4: "",
           footer: "",
           answer: 0,
-          point: 0.0,
+          grade: 0.0,
         });
       })
       .catch((err) => {});
@@ -196,7 +196,7 @@ class AddQuestion extends Component {
           <Label>Point</Label>
           <Input
             type="number"
-            value={this.state.point}
+            value={this.state.grade}
             onChange={this.handleGradeChange}
           />
         </FormGroup>
