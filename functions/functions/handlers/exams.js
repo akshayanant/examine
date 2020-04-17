@@ -65,7 +65,23 @@ exports.disableexam = (req, res) => {
       db.doc(`/past_exams/${examID}`)
         .set({ examID })
         .then(() => {
-          res.json({ message: "Exam Disbaled Successfully" });
+          db.collection("users")
+            .get()
+            .then((data) => {
+              return data.docs;
+            })
+            .then((docs) => {
+              docs.forEach((doc) => {
+                db.doc(`/users/${doc.id}`).update({
+                  availableExams: admin.firestore.FieldValue.arrayRemove(
+                    examID
+                  ),
+                });
+              });
+            })
+            .then(() => {
+              res.json({ message: "Exam Disbaled Successfully" });
+            });
         });
     })
     .catch((err) => {
