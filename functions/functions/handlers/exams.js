@@ -154,6 +154,7 @@ exports.getExamDetails = (req, res) => {
 exports.questions = (req, res) => {
   db.collection("questions")
     .orderBy("createdAt", "desc")
+    .limit(10)
     .get()
     .then((data) => {
       return data.docs;
@@ -173,6 +174,7 @@ exports.questions = (req, res) => {
 exports.getQuestionIDs = (req, res) => {
   db.collection("questions")
     .orderBy("createdAt", "desc")
+    .limit(10)
     .get()
     .then((data) => {
       return data.docs;
