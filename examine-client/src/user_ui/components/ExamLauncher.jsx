@@ -81,8 +81,11 @@ class ExamLauncher extends Component {
           <div className="exam-heading">
             <h4>{this.props.attemptDetails.exam.examName}</h4>
             <div>
-              <h6>Exam Duration : {this.props.attemptDetails.exam.duration}</h6>
-              <h6>Total points : {this.props.attemptDetails.exam.points}</h6>
+              <h6>
+                Exam Duration : {this.props.attemptDetails.exam.duration}{" "}
+                Minutes
+              </h6>
+              <h6>Total Points : {this.props.attemptDetails.exam.points}</h6>
             </div>
           </div>
         </CardHeader>
