@@ -11,21 +11,25 @@ class UserNavLinks extends Component {
     const loading = this.props.loading;
     const navMarkUp = valid ? (
       <div>
-        <h6>Features</h6>
+        <h4>Dashboard</h4>
         <Nav tabs vertical>
           <NavItem>
-            <NavLink disabled>Announcements</NavLink>
+            <NavLink disabled className="user-nav-item ">
+              Announcements
+            </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="/exams">Exams</NavLink>
+            <NavLink href="/exams" className="user-nav-item ">
+              Exams
+            </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink disabled href="#">
+            <NavLink disabled href="#" className="user-nav-item ">
               Assignments
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink disabled href="#">
+            <NavLink disabled href="#" className="user-nav-item ">
               Discussions
             </NavLink>
           </NavItem>

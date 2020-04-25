@@ -137,10 +137,12 @@ class QuestionCard extends Component {
         <CardHeader> Question - {index}</CardHeader>
         <CardBody>
           <CardTitle>
-            {this.state.question.question}
+            <div className="conclusions-markup">
+              <p>{this.state.question.question}</p>
+            </div>
             <p></p>
             <div>{conclusionsMarkUp}</div>
-            {this.state.question.footer}
+            <p className="conclusions-markup">{this.state.question.footer}</p>
             {optionsMarkUp}
           </CardTitle>
           <Button color="success" size="sm" onClick={this.handleClearSelection}>

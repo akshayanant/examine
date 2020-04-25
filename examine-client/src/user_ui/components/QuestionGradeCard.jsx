@@ -159,10 +159,14 @@ class QuestionGradeCard extends Component {
         </CardHeader>
         <CardBody>
           <CardTitle>
-            {this.state.question.question}
+            <div className="conclusions-markup">
+              {this.state.question.question}
+            </div>
             <p></p>
             <div>{conclusionsMarkUp}</div>
-            {this.state.question.footer}
+            <div className="conclusions-markup">
+              {this.state.question.footer}
+            </div>
             {optionsMarkUp}
           </CardTitle>
           {resultMarkUp}

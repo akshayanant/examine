@@ -16,28 +16,43 @@ class GradeCard extends Component {
         </CardHeader>
         <CardBody>
           <div className="grade-card-item">
-            <Badge color="light"> Questions </Badge>
-            <Badge> {this.props.totalQuestions}</Badge>
+            <h6 className="grade-card-item-text">Questions</h6>{" "}
+            <Badge>
+              {" "}
+              <h6> {this.props.totalQuestions}</h6>
+            </Badge>
           </div>
           <div className="grade-card-item">
-            <Badge color="light">Attempted </Badge>
-            <Badge> {this.props.attempted}</Badge>
+            <h6 className="grade-card-item-text">Attempted </h6>
+            <Badge>
+              {" "}
+              <h6> {this.props.attempted} </h6>{" "}
+            </Badge>
           </div>
           <div className="grade-card-item">
-            <Badge color="light">Correct </Badge>
-            <Badge>{this.props.correct}</Badge>
+            <h6 className="grade-card-item-text">Correct </h6>
+            <Badge>
+              {" "}
+              <h6> {this.props.correct}</h6>{" "}
+            </Badge>
           </div>
           <div className="grade-card-item">
-            <Badge color="light">Wrong </Badge>
-            <Badge> {this.props.wrong}</Badge>
+            <h6 className="grade-card-item-text">Wrong </h6>
+            <Badge>
+              <h6> {this.props.wrong} </h6>{" "}
+            </Badge>
           </div>
           <div className="grade-card-item">
-            <Badge color="light">Hit Rate </Badge>
-            <Badge> {this.props.hitRate | 0} %</Badge>
+            <h6 className="grade-card-item-text">Hit Rate </h6>
+            <Badge>
+              <h6> {this.props.hitRate | 0} % </h6>{" "}
+            </Badge>
           </div>
           <div className="grade-card-item">
-            <Badge color="light"> Points </Badge>
-            <Badge> {this.props.points.toFixed(2)}</Badge>
+            <h6 className="grade-card-item-text"> Points </h6>
+            <Badge>
+              <h6>{this.props.points.toFixed(2)} </h6>{" "}
+            </Badge>
           </div>
         </CardBody>
       </Card>

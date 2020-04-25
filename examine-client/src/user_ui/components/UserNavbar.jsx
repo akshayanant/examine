@@ -10,18 +10,16 @@ class UserNavbar extends Component {
     const authorized = this.props.authorized;
     const loading = this.props.loading;
     const buttonMarkup = valid ? (
-      <Button onClick={this.props.logout} disabled={loading}>
+      <Button onClick={this.props.logout} disabled={loading} color="light">
         Logout
       </Button>
     ) : (
       ""
     );
     return (
-      <Navbar color="light" light>
+      <Navbar className="dark-background">
         <NavbarBrand href="/">
-          <Badge color="light">
-            <h3>ExaMine</h3>
-          </Badge>
+          <h3 style={{ color: "white" }}>ExaMine</h3>
         </NavbarBrand>
         {buttonMarkup}
       </Navbar>
