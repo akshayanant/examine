@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 
 import { userLogin, userSignUp } from "./../../redux/user/actions";
 import PrimaryButton from "./PrimaryButton";
+import SecondaryButton from "./SecondaryButton";
 
 class Login extends Component {
   constructor(props) {
@@ -101,13 +102,13 @@ class Login extends Component {
           />
         </FormGroup>
         <div>{authErrorMarkup}</div>
-        <Button
-          className="btn-lg btn-dark btn-block"
+        <SecondaryButton
+          className="btn-lg btn-block"
           onClick={this.handleLogin}
           disabled={loading}
-        >
-          Login
-        </Button>
+          name="Login"
+        />
+
         <hr></hr>
         <div>
           <Label>Not a Member yet?</Label>

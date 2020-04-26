@@ -8,8 +8,8 @@ class PrimaryButton extends Component {
         {...this.props}
         style={{
           color: "white",
-          backgroundColor: "#b90d63",
-          borderColor: "#b90d63",
+          backgroundColor: "#8C1D40",
+          borderColor: "#8C1D40",
         }}
       >
         {this.props.name}
