@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Card, CardHeader, CardBody, Button } from "reactstrap";
 
 import LaunchExamModal from "./LaunchExamModal";
+import PrimaryButton from "./PrimaryButton";
 
 class ExamCard extends Component {
   constructor(props) {
@@ -35,7 +36,7 @@ class ExamCard extends Component {
     const examName = this.props.exam.examName;
     const buttonMarkup = this.props.available ? (
       <div>
-        <Button onClick={this.handleTakeExam}>Take Exam</Button>
+        <PrimaryButton onClick={this.handleTakeExam} name="Take Exam" />
         <LaunchExamModal
           visible={this.state.modalVisible}
           continue={this.handleContinue}
@@ -44,9 +45,10 @@ class ExamCard extends Component {
         />
       </div>
     ) : (
-      <Button href={`/viewresults/${this.props.submissionID}`}>
-        View Results
-      </Button>
+      <PrimaryButton
+        href={`/viewresults/${this.props.submissionID}`}
+        name="View Results"
+      />
     );
     return (
       <div className="exam-card">

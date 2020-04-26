@@ -12,6 +12,7 @@ class UserNavLinks extends Component {
     const navMarkUp = valid ? (
       <div>
         <h4>Dashboard</h4>
+        <hr></hr>
         <Nav tabs vertical>
           <NavItem>
             <NavLink disabled className="user-nav-item ">

@@ -7,6 +7,7 @@ import LoadingSpinner from "./LoadingSpinner";
 import { startExam, submitExam } from "../../redux/user/actions";
 import QuestionCard from "./QuestionCard";
 import { auth } from "./../util/auth";
+import SecondaryButton from "./SecondaryButton";
 
 class ExamLauncher extends Component {
   constructor(props) {
@@ -91,9 +92,11 @@ class ExamLauncher extends Component {
         </CardHeader>
 
         <CardBody>{questionsMarkUP}</CardBody>
-        <Button onClick={this.handleSubmitExam} disabled={submittingExam}>
-          Submit
-        </Button>
+        <SecondaryButton
+          onClick={this.handleSubmitExam}
+          disabled={submittingExam}
+          name="Submit"
+        />
       </Card>
     );
     return (

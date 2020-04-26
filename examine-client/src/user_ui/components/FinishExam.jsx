@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import { gradeSubmission } from "../../redux/user/actions";
 import LoadingSpinner from "./LoadingSpinner";
-import { Button } from "reactstrap";
+import PrimaryButton from "./PrimaryButton";
 
 class FinishExam extends Component {
   componentDidMount() {
@@ -19,7 +19,10 @@ class FinishExam extends Component {
     return (
       <div>
         <p>Exam Graded!</p>
-        <Button href={`/viewresults/${submissionID}`}>View Results</Button>
+        <PrimaryButton
+          href={`/viewresults/${submissionID}`}
+          name="View Results"
+        />
       </div>
     );
   }

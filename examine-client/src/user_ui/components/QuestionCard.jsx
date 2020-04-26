@@ -13,6 +13,7 @@ import {
   Form,
 } from "reactstrap";
 import axios from "axios";
+import PrimaryButton from "./PrimaryButton";
 
 class QuestionCard extends Component {
   constructor(props) {
@@ -145,9 +146,11 @@ class QuestionCard extends Component {
             <p className="conclusions-markup">{this.state.question.footer}</p>
             {optionsMarkUp}
           </CardTitle>
-          <Button color="success" size="sm" onClick={this.handleClearSelection}>
-            clear
-          </Button>
+          <PrimaryButton
+            size="sm"
+            onClick={this.handleClearSelection}
+            name="CLEAR"
+          />
         </CardBody>
       </Card>
     );

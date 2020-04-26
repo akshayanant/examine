@@ -3,6 +3,7 @@ import { Form, FormGroup, Input, Label, Button } from "reactstrap";
 import { connect } from "react-redux";
 
 import { userLogin, userSignUp } from "./../../redux/user/actions";
+import PrimaryButton from "./PrimaryButton";
 
 class Login extends Component {
   constructor(props) {
@@ -153,13 +154,11 @@ class Login extends Component {
             onChange={this.handleChangeConfirmPassword}
           />
         </FormGroup>
-        <Button
-          className="btn btn-success"
+        <PrimaryButton
           disabled={loading}
           onClick={this.handleNewAcc}
-        >
-          Sign up
-        </Button>
+          name="Sign Up"
+        />
       </Form>
     );
   }
