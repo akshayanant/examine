@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { fetchAvailableExams, fetchPastExams } from "../../redux/user/actions";
 import ExamCard from "./ExamCard";
 import LoadingSpinner from "./LoadingSpinner";
+import { CardHeader } from "reactstrap";
 
 class Exams extends Component {
   componentDidMount() {
@@ -18,6 +19,10 @@ class Exams extends Component {
     const loadingAvailableExams = this.props.loadingAvailableExams;
     const availableExamsMarkUp = loadingAvailableExams ? (
       <LoadingSpinner />
+    ) : availableExams.length === 0 ? (
+      <CardHeader>
+        <h6> No exams available right now. Stay tuned!</h6>
+      </CardHeader>
     ) : (
       availableExams.map((exam) => {
         return (
@@ -32,6 +37,10 @@ class Exams extends Component {
     );
     const pastExamsMarkUp = loadingPastExams ? (
       <LoadingSpinner />
+    ) : pastExams.length === 0 ? (
+      <CardHeader>
+        <h6> No past exams found. Please take an exam when avaiable!</h6>
+      </CardHeader>
     ) : (
       pastExams.map((exam) => {
         return (
