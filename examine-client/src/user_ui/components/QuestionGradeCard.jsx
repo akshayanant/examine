@@ -59,27 +59,30 @@ class QuestionGradeCard extends Component {
 
   render() {
     const index = this.props.index;
-    const conclusionsMarkUp = (
-      <div className="conclusions-markup">
-        {this.state.question.conclusion1.length > 0 ? (
-          <p> (1) {this.state.question.conclusion1}</p>
-        ) : (
-          ""
-        )}
+    let conclusionsMarkUp = "";
+    if (this.state.question.conclusion1.length > 0) {
+      conclusionsMarkUp = (
+        <div className="conclusions-markup">
+          {this.state.question.conclusion1.length > 0 ? (
+            <p> (1) {this.state.question.conclusion1}</p>
+          ) : (
+            ""
+          )}
 
-        {this.state.question.conclusion2.length > 0 ? (
-          <p> (2) {this.state.question.conclusion2}</p>
-        ) : (
-          ""
-        )}
+          {this.state.question.conclusion2.length > 0 ? (
+            <p> (2) {this.state.question.conclusion2}</p>
+          ) : (
+            ""
+          )}
 
-        {this.state.question.conclusion3.length > 0 ? (
-          <p> (3) {this.state.question.conclusion3}</p>
-        ) : (
-          ""
-        )}
-      </div>
-    );
+          {this.state.question.conclusion3.length > 0 ? (
+            <p> (3) {this.state.question.conclusion3}</p>
+          ) : (
+            ""
+          )}
+        </div>
+      );
+    }
     let classNames = [
       "options-form-group",
       "options-form-group",
@@ -162,8 +165,7 @@ class QuestionGradeCard extends Component {
             <div className="conclusions-markup">
               {this.state.question.question}
             </div>
-            <p></p>
-            <div>{conclusionsMarkUp}</div>
+            {conclusionsMarkUp}
             <div className="conclusions-markup">
               {this.state.question.footer}
             </div>

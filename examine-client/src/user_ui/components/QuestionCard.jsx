@@ -141,8 +141,7 @@ class QuestionCard extends Component {
             <div className="conclusions-markup">
               <p>{this.state.question.question}</p>
             </div>
-            <p></p>
-            <div>{conclusionsMarkUp}</div>
+            {conclusionsMarkUp}
             <p className="conclusions-markup">{this.state.question.footer}</p>
             {optionsMarkUp}
           </CardTitle>
