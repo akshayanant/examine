@@ -161,7 +161,11 @@
 }
 
 .conclusions-markup {
+  font-size: large;
   padding: 10px;
+}
+
+.question-footer-markup {
   font-size: large;
 }
 

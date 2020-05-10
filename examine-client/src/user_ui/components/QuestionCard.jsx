@@ -59,27 +59,30 @@ class QuestionCard extends Component {
 
   render() {
     const index = this.props.index;
-    const conclusionsMarkUp = (
-      <div className="conclusions-markup">
-        {this.state.question.conclusion1.length > 0 ? (
-          <p> (1) {this.state.question.conclusion1}</p>
-        ) : (
-          ""
-        )}
+    let conclusionsMarkUp = "";
+    if (this.state.question.conclusion1.length > 0) {
+      conclusionsMarkUp = (
+        <div className="conclusions-markup">
+          {this.state.question.conclusion1.length > 0 ? (
+            <p> (1) {this.state.question.conclusion1}</p>
+          ) : (
+            ""
+          )}
 
-        {this.state.question.conclusion2.length > 0 ? (
-          <p> (2) {this.state.question.conclusion2}</p>
-        ) : (
-          ""
-        )}
+          {this.state.question.conclusion2.length > 0 ? (
+            <p> (2) {this.state.question.conclusion2}</p>
+          ) : (
+            ""
+          )}
 
-        {this.state.question.conclusion3.length > 0 ? (
-          <p> (3) {this.state.question.conclusion3}</p>
-        ) : (
-          ""
-        )}
-      </div>
-    );
+          {this.state.question.conclusion3.length > 0 ? (
+            <p> (3) {this.state.question.conclusion3}</p>
+          ) : (
+            ""
+          )}
+        </div>
+      );
+    }
 
     const optionsMarkUp = (
       <div>
@@ -142,7 +145,9 @@ class QuestionCard extends Component {
               <p>{this.state.question.question}</p>
             </div>
             {conclusionsMarkUp}
-            <p className="conclusions-markup">{this.state.question.footer}</p>
+            <p className="question-footer-markup">
+              {this.state.question.footer}
+            </p>
             {optionsMarkUp}
           </CardTitle>
           <PrimaryButton

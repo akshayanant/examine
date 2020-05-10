@@ -166,7 +166,7 @@ class QuestionGradeCard extends Component {
               {this.state.question.question}
             </div>
             {conclusionsMarkUp}
-            <div className="conclusions-markup">
+            <div className="question-footer-markup">
               {this.state.question.footer}
             </div>
             {optionsMarkUp}
