@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import { Card, CardHeader, CardBody, Badge } from "reactstrap";
 import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+
+import { REM_TIME } from "../util/constants";
+import { openRemTimeAlert } from "../../redux/user/actions";
+import RemTimeAlert from "./RemTimeAlert";
 
 class Timer extends Component {
   state = {
@@ -20,6 +25,9 @@ class Timer extends Component {
         if (minutes === 0) {
           clearInterval(this.myInterval);
         } else {
+          if (minutes === REM_TIME) {
+            this.props.open();
+          }
           this.setState(({ minutes }) => ({
             minutes: minutes - 1,
             seconds: 59,
@@ -35,7 +43,7 @@ class Timer extends Component {
 
   render() {
     const { minutes, seconds } = this.state;
-    const color = minutes < 2 ? "danger" : "light";
+    const color = minutes < REM_TIME ? "danger" : "light";
     const minuteString = minutes < 10 ? `0${minutes}` : minutes;
     const minutesMarkUp = (
       <h4>
@@ -49,20 +57,29 @@ class Timer extends Component {
       </h4>
     );
     return (
-      <div>
+      <div style={{ position: "fixed" }}>
         {minutes === 0 && seconds === 0 ? (
           <Redirect to={this.props.redirect} />
         ) : (
-          <Card>
-            <CardHeader>Time Remaining</CardHeader>
-            <CardBody className="timer-body">
-              {minutesMarkUp} :{secondsMarkUp}
-            </CardBody>
-          </Card>
+          <div>
+            <RemTimeAlert />
+            <Card>
+              <CardHeader>Time Remaining</CardHeader>
+              <CardBody className="timer-body">
+                {minutesMarkUp} :{secondsMarkUp}
+              </CardBody>
+            </Card>
+          </div>
         )}
       </div>
     );
   }
 }
 
-export default Timer;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    open: () => dispatch(openRemTimeAlert()),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Timer);

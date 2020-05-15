@@ -22,6 +22,8 @@ import {
   FETCH_GRADES_SUCCESS,
   START_VIEWING_GRADES,
   END_VIEWING_GRADES,
+  REM_TIME_ALERT_OPEN,
+  REM_TIME_ALERT_CLOSE,
 } from "./actionNames";
 
 const init = {
@@ -63,6 +65,7 @@ const init = {
   timerRunning: false,
   timerMinutes: 0,
   viewingGrade: false,
+  remTimeAlert: false,
 };
 
 export const dataReducer = (state = init, action) => {
@@ -106,6 +109,7 @@ export const dataReducer = (state = init, action) => {
       return {
         ...state,
         loading: true,
+        remTimeAlert: false,
       };
 
     case USER_LOGOUT_SUCCESS:
@@ -188,6 +192,7 @@ export const dataReducer = (state = init, action) => {
       return {
         ...state,
         submittingExam: true,
+        remTimeAlert: false,
       };
 
     case SUBMIT_EXAM_SUCCESS:
@@ -234,6 +239,19 @@ export const dataReducer = (state = init, action) => {
         ...state,
         viewingGrade: false,
       };
+
+    case REM_TIME_ALERT_OPEN:
+      return {
+        ...state,
+        remTimeAlert: true,
+      };
+
+    case REM_TIME_ALERT_CLOSE:
+      return {
+        ...state,
+        remTimeAlert: false,
+      };
+
     default:
       return {
         ...state,

@@ -226,3 +226,9 @@
 .btn-secondary {
   background-color: #8c1d40;
 }
+
+.rem-time-alert {
+  position: fixed;
+  top: 0;
+  margin: auto;
+}

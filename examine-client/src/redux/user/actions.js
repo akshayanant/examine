@@ -22,6 +22,8 @@ import {
   FETCH_GRADES_SUCCESS,
   START_VIEWING_GRADES,
   END_VIEWING_GRADES,
+  REM_TIME_ALERT_OPEN,
+  REM_TIME_ALERT_CLOSE,
 } from "./actionNames";
 import axios from "axios";
 
@@ -345,5 +347,17 @@ export const startViewingGrades = () => {
 export const endViewingGrades = () => {
   return {
     type: END_VIEWING_GRADES,
+  };
+};
+
+export const openRemTimeAlert = () => {
+  return {
+    type: REM_TIME_ALERT_OPEN,
+  };
+};
+
+export const closeRemTimeAlert = () => {
+  return {
+    type: REM_TIME_ALERT_CLOSE,
   };
 };
