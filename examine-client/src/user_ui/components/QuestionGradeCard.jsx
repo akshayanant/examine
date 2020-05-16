@@ -12,8 +12,11 @@ import {
   Input,
   Form,
   Badge,
+  UncontrolledPopover,
+  PopoverBody,
 } from "reactstrap";
 import axios from "axios";
+import { NO_EXPLAIN } from "../util/constants";
 
 class QuestionGradeCard extends Component {
   constructor(props) {
@@ -31,6 +34,7 @@ class QuestionGradeCard extends Component {
         option4: "",
         questionFooter: "",
         points: 0,
+        explanation: "",
       },
       selection: [false, false, false, false],
     };
@@ -39,6 +43,7 @@ class QuestionGradeCard extends Component {
   }
   componentDidMount() {
     axios.get(`/getquestiondetails/${this.props.questionID}`).then((res) => {
+      console.log(res.data);
       this.setState({ question: res.data.question });
     });
   }
@@ -152,6 +157,12 @@ class QuestionGradeCard extends Component {
         </Form>
       </div>
     );
+
+    const explanation =
+      this.state.question.explanation &&
+      this.state.question.explanation.length > 0
+        ? this.state.question.explanation
+        : NO_EXPLAIN;
     return (
       <Card className="user-question-card">
         <CardHeader>
@@ -172,6 +183,12 @@ class QuestionGradeCard extends Component {
             {optionsMarkUp}
           </CardTitle>
           {resultMarkUp}
+          <a href="javascript:void(0);" id={"explain" + index}>
+            Explain to me{" "}
+          </a>
+          <UncontrolledPopover placement="right" target={"explain" + index}>
+            <PopoverBody>{explanation}</PopoverBody>
+          </UncontrolledPopover>
         </CardBody>
       </Card>
     );
