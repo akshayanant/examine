@@ -19,6 +19,7 @@ class AddQuestion extends Component {
       footer: "",
       answer: 0,
       grade: 0.0,
+      explanation: "",
     };
     this.handleQuestionChange = this.handleQuestionChange.bind(this);
     this.handleConcl1Change = this.handleConcl1Change.bind(this);
@@ -29,6 +30,7 @@ class AddQuestion extends Component {
     this.handleOption3Change = this.handleOption3Change.bind(this);
     this.handleOption4Change = this.handleOption4Change.bind(this);
     this.handleFooterChange = this.handleFooterChange.bind(this);
+    this.handleExplanationChange = this.handleExplanationChange.bind(this);
     this.handleAnswerChange = this.handleAnswerChange.bind(this);
     this.handleGradeChange = this.handleGradeChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -63,6 +65,11 @@ class AddQuestion extends Component {
   handleFooterChange = (event) => {
     this.setState({ footer: event.target.value });
   };
+
+  handleExplanationChange = (event) => {
+    this.setState({ explanation: event.target.value });
+  };
+
   handleAnswerChange = (event) => {
     this.setState({ answer: parseInt(event.target.value) });
   };
@@ -86,6 +93,7 @@ class AddQuestion extends Component {
           footer: "",
           answer: 0,
           grade: 0.0,
+          explanation: "",
         });
       })
       .catch((err) => {});
@@ -104,6 +112,7 @@ class AddQuestion extends Component {
       footer: "",
       answer: 0,
       grade: 0.0,
+      explanation: "",
     });
   };
 
@@ -184,6 +193,16 @@ class AddQuestion extends Component {
             onChange={this.handleFooterChange}
           />
         </FormGroup>
+
+        <FormGroup className="add-question-form">
+          <Label>Explanation</Label>
+          <Input
+            type="textarea"
+            value={this.state.explanation}
+            onChange={this.handleExplanationChange}
+          />
+        </FormGroup>
+
         <FormGroup className="add-question-form">
           <Label>Answer</Label>
           <Input

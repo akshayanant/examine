@@ -205,6 +205,7 @@ exports.addquestion = (req, res) => {
     footer: req.body.footer,
     answer: req.body.answer,
     grade: req.body.grade,
+    explanation: req.body.explanation,
   };
   db.collection("questions")
     .add(newQuestion)
